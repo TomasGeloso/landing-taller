@@ -1,0 +1,22 @@
+LANDING DEL TALLER - CÓMO USARLA
+================================
+
+1) Completá los datos del taller en config.js (se abre con el Bloc de notas).
+   Nombre, ciudad, WhatsApp, teléfono, email, dirección, horario, etc.
+   Lo que quede vacío se ve marcado en amarillo en la página.
+
+2) Formulario de cotización:
+   - Si cargás un email en config.js, los pedidos llegan a ese email
+     (con los planos/fotos adjuntos) mediante el servicio gratuito FormSubmit.
+     La PRIMERA vez que alguien envíe el formulario, FormSubmit manda un mail
+     de activación a esa casilla: hay que abrirlo y confirmar. Después funciona solo.
+   - Si no hay email cargado, el formulario arma el mensaje y lo abre en WhatsApp.
+   - El envío por email funciona con la página publicada en internet
+     (no abriendo el archivo desde la computadora).
+
+3) Para publicarla: subí la carpeta completa (index.html, config.js e img/)
+   a cualquier hosting estático. Ej.: Netlify Drop (app.netlify.com/drop),
+   arrastrando la carpeta.
+
+4) Las animaciones de aparición de los títulos se ven en Chrome y Edge.
+   En Safari y Firefox la página funciona igual, sin esa animación.
