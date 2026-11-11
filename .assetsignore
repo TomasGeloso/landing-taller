@@ -9,3 +9,5 @@ img/logo/original
 .nojekyll
 wrangler.jsonc
 .assetsignore
+.git
+node_modules
