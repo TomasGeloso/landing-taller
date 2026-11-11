@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://tomasgeloso.github.io/landing-taller/sitemap.xml
+Sitemap: https://landing-taller.tomasgeloso.workers.dev/sitemap.xml

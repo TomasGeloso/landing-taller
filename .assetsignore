@@ -1,0 +1,11 @@
+# Archivos que NO se publican en Cloudflare (quedan solo en el repositorio)
+admin.html
+LEEME.txt
+*.md
+*.respaldo.js
+img/logo/original
+.github
+.gitignore
+.nojekyll
+wrangler.jsonc
+.assetsignore
