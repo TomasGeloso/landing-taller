@@ -1,0 +1,887 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="img/logo/mecalab-icono.svg" type="image/svg+xml">
+<title>Mecalab · Administrador de la página</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+:root{--t:#1E5B8C;--t2:#17496F;--ink:#16222B;--muted:#4E5D69;--ice:#E9EEF1;--ice2:#F4F7F8;--line:#DCE3E7;--steel:#7D8C98;--red:#B3261E;--ok:#1B7F4B;--warn:#8A5A00}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ice);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:16px;line-height:1.55}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--t);outline-offset:2px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.wrap{max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,40px)}
+
+/* cabecera */
+.top{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.top .wrap{display:flex;align-items:center;gap:10px 24px;flex-wrap:wrap;min-height:68px;padding-top:10px;padding-bottom:10px}
+.brand{display:flex;align-items:center;gap:12px;margin-right:auto}
+.wm{display:flex;flex-direction:column;line-height:1}
+.wn{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em}
+.wn b{color:var(--t)}
+.ws{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.folder{font-size:13px;color:var(--muted);display:none;align-items:center;gap:8px}
+.folder .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+.tabs{display:none;border-top:1px solid var(--line);background:#fff}
+.tabs .wrap{display:flex;gap:4px;overflow-x:auto;min-height:0;padding-top:0;padding-bottom:0}
+.tab{border:0;background:none;padding:13px 16px;font-weight:600;font-size:15px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;white-space:nowrap}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected=true]{color:var(--ink);border-bottom-color:var(--t)}
+
+/* botones */
+.btn{color:var(--ink);display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:42px;padding:0 18px;border:1.5px solid var(--ink);background:transparent;border-radius:2px;font-weight:600;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s,background .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 18px rgba(22,34,43,.14)}
+.btn.pri{background:var(--t);border-color:var(--t);color:#fff}
+.btn.pri:hover{background:var(--t2)}
+.btn.danger{border-color:var(--red);color:var(--red)}
+.btn.danger:hover{background:var(--red);color:#fff}
+.btn.sm{min-height:34px;padding:0 12px;font-size:14px}
+.btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.ib{min-height:32px;min-width:32px;padding:0 8px;border:1px solid #C9D3D9;background:#fff;cursor:pointer;font-size:13px;font-weight:600}
+.ib:hover{border-color:var(--ink)}
+.ib.red{color:var(--red)}
+.ib.red:hover{border-color:var(--red);background:#FBEDEC}
+.ib[disabled]{opacity:.35;cursor:not-allowed}
+
+/* bienvenida */
+#welcome{padding:clamp(40px,8vw,96px) 0}
+.card{background:#fff;border-top:3px solid var(--t);padding:clamp(24px,4vw,48px);max-width:720px}
+.card h1{font-family:'Archivo',sans-serif;font-weight:700;letter-spacing:-.02em;font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0 0 12px}
+.card p{margin:0 0 14px;color:var(--muted)}
+.card ol{margin:0 0 24px;padding-left:20px}
+.card li{margin-bottom:6px}
+.err{margin-top:18px;padding:12px 14px;border-left:3px solid var(--red);background:#FBEDEC;font-size:15px;display:none}
+.err.show{display:block}
+.alert{display:none;margin:0 0 20px;padding:12px 14px;border-left:3px solid var(--steel);background:#fff;font-size:14.5px;color:var(--muted)}
+
+/* paneles */
+#app{display:none;padding:24px 0 80px}
+.pane{display:none}
+.pane.on{display:block}
+.intro{margin:0 0 22px;color:var(--muted);max-width:760px}
+.bar{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:center;margin-bottom:16px}
+.search{flex:1 1 240px;max-width:380px;min-height:42px;padding:0 14px;border:1.5px solid #C9D3D9;background:#fff;border-radius:2px}
+.search:focus{border-color:var(--t);outline:none}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chip{min-height:38px;padding:0 14px;border:1px solid #C9D3D9;background:#fff;border-radius:2px;cursor:pointer;font-size:14px}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:#fff}
+.chip small{font-family:'IBM Plex Mono',monospace;font-size:11px;opacity:.7;margin-left:4px}
+.count{font-size:14px;color:var(--muted);margin:0 0 14px}
+.empty{padding:48px 0;text-align:center;color:var(--muted)}
+
+/* grilla de trabajos y de fotos */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.work{background:#fff;border:1px solid var(--line);padding:0 0 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+.work:hover{border-color:var(--steel);transform:translateY(-2px)}
+.work .ph{aspect-ratio:1/1;background:#D5DDE2;position:relative;overflow:hidden}
+.work .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.work .tt{padding:0 12px;font-weight:600;font-size:14.5px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.work .mt{padding:0 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.tag{position:absolute;left:6px;bottom:6px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:10px;padding:2px 6px;letter-spacing:.04em}
+
+/* secciones */
+.scard{background:#fff;border-top:3px solid var(--t);padding:22px 24px;margin-bottom:20px}
+.scard h2{margin:0 0 4px;font-family:'Archivo',sans-serif;font-size:21px;letter-spacing:-.01em}
+.scard .hint{margin:0 0 16px;color:var(--muted);font-size:14.5px}
+.rows{display:flex;flex-direction:column;gap:10px;margin-bottom:14px}
+.row-i{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:10px;border:1px solid var(--line);background:var(--ice2)}
+.row-i .th{width:72px;height:54px;background:#D5DDE2;flex:none;overflow:hidden}
+.row-i .th img{width:100%;height:100%;object-fit:cover;display:block}
+.row-i .nm{flex:1 1 200px;min-width:0;font-weight:600;font-size:15px}
+.row-i .nm small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.row-i .nm .w{color:var(--warn)}
+.row-i .fld{flex:1 1 220px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.row-i .fld label{font-size:12px;font-weight:600;color:var(--muted)}
+.row-i .fld input{min-height:38px;padding:0 10px;border:1.5px solid #C9D3D9;background:#fff;border-radius:2px;width:100%}
+.row-i .fld input:focus{border-color:var(--t);outline:none}
+.row-i .btns{display:flex;gap:6px;flex-wrap:wrap}
+.logo-th{width:110px;height:54px;background:#fff;border:1px solid var(--line);flex:none;display:grid;place-items:center;overflow:hidden}
+.logo-th img{max-width:92%;max-height:84%;object-fit:contain}
+
+/* imágenes (materiales) */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.mitem{background:#fff;border:1px solid var(--line);display:flex;flex-direction:column}
+.mitem .ph{aspect-ratio:1/1;background:#EEF2F4;display:grid;place-items:center}
+.mitem .ph img{width:100%;height:100%;object-fit:contain;display:block}
+.mitem .mb{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.mitem .mb strong{font-size:14.5px;line-height:1.3}
+
+/* textos */
+.tgroup{margin-bottom:26px}
+.tgroup h2{font-family:'Archivo',sans-serif;font-size:20px;margin:0 0 10px;display:flex;align-items:baseline;gap:10px}
+.tgroup h2 small{font-family:'IBM Plex Mono',monospace;font-size:12px;font-weight:400;color:var(--muted)}
+.titem{background:#fff;border:1px solid var(--line);border-left:3px solid var(--line);padding:10px 14px 12px;margin-bottom:8px}
+.titem.mod{border-left-color:var(--t)}
+.titem .tl{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin-bottom:4px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.05em}
+.titem textarea{width:100%;border:1.5px solid #C9D3D9;background:#fff;padding:8px 10px;border-radius:2px;resize:vertical;min-height:40px;line-height:1.45}
+.titem textarea:focus{border-color:var(--t);outline:none}
+.linkb{border:0;background:none;color:var(--t);font-weight:600;font-size:12px;cursor:pointer;text-transform:none;letter-spacing:0;padding:0}
+
+/* diálogos */
+dialog{border:0;padding:0;background:#fff;color:var(--ink);max-width:min(900px,calc(100vw - 24px));width:100%;max-height:calc(100vh - 24px);box-shadow:0 24px 60px rgba(12,19,24,.4)}
+dialog::backdrop{background:rgba(12,19,24,.72)}
+.dh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 24px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:2}
+.dh h2{margin:0;font-family:'Archivo',sans-serif;font-size:22px;letter-spacing:-.01em}
+.x{width:38px;height:38px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:20px;line-height:1}
+.db{padding:22px 24px;display:flex;flex-direction:column;gap:20px}
+.df{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;padding:16px 24px;border-top:1px solid var(--line);position:sticky;bottom:0;background:#fff}
+.f{display:flex;flex-direction:column;gap:6px;flex:1 1 220px}
+.f label,.lbl{font-size:13px;font-weight:600}
+.f input,.f select{min-height:44px;padding:0 12px;border:1.5px solid #C9D3D9;background:#fff;border-radius:2px;width:100%}
+.f input:focus,.f select:focus{border-color:var(--t);outline:none}
+.row{display:flex;flex-wrap:wrap;gap:16px}
+.note{font-size:14px;color:var(--muted);padding:10px 12px;border-left:3px solid var(--steel);background:var(--ice2)}
+.photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.pt{border:1px solid var(--line);background:var(--ice2);display:flex;flex-direction:column}
+.pt .ph{aspect-ratio:4/3;background:#D5DDE2;position:relative}
+.pt .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pt .n{position:absolute;left:6px;top:6px;background:var(--ink);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:1px 6px}
+.pt .ac{display:flex;flex-wrap:wrap;gap:6px;padding:8px}
+.pt select{min-height:32px;border:1px solid #C9D3D9;background:#fff;padding:0 6px;font-size:13px;width:100%}
+.drop{border:1.5px dashed #9AA8B2;background:var(--ice2);padding:22px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;transition:background .15s,border-color .15s}
+.drop.over{background:#EEF4F8;border-color:var(--t)}
+.drop span{font-size:14px;color:var(--muted)}
+.picked{font-size:14px;font-weight:600}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.pitem{border:1px solid var(--line);background:#fff;padding:0 0 8px;cursor:pointer;text-align:left;display:flex;flex-direction:column;gap:6px}
+.pitem:hover{border-color:var(--t)}
+.pitem .ph{aspect-ratio:1/1;background:#D5DDE2}
+.pitem .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.pitem span{padding:0 8px;font-size:12.5px;line-height:1.3;font-weight:600;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+#toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:var(--ink);color:#fff;padding:12px 20px;font-size:15px;opacity:0;pointer-events:none;transition:.25s;z-index:100;max-width:calc(100vw - 32px);text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#toast.bad{background:var(--red)}
+@media (max-width:600px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.dh,.db,.df{padding-left:16px;padding-right:16px}.scard{padding:18px 16px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="38" height="33" viewBox="243 269 538 466" aria-hidden="true"><path fill="#1E5B8C" d="M336.26 735 A268.5 268.5 0 0 1 470 266.81 V312.48 A223.5 223.5 0 0 0 418.49 735 Z M687.74 735 A268.5 268.5 0 0 0 554 266.81 V312.48 A223.5 223.5 0 0 1 605.51 735 Z"/><path fill="#1E5B8C" d="M391 361 L512 478 L633 361 V735 H587 V484 L512 556 L437 484 V735 H391 Z"/></svg>
+      <span class="wm"><span class="wn">Meca<b>lab</b></span><span class="ws">Administrador de la página</span></span>
+    </div>
+    <span class="folder" id="folder"><i class="dot"></i><span id="folder-name"></span></span>
+    <a class="btn sm" id="ver" href="index.html" target="_blank" rel="noopener" style="display:none">Ver la página ↗</a>
+    <button class="btn sm" id="cambiar" type="button" style="display:none">Cambiar carpeta</button>
+  </div>
+  <div class="tabs" id="tabs"><div class="wrap" role="tablist" aria-label="Secciones del administrador"></div></div>
+</header>
+
+<!-- Bienvenida -->
+<section id="welcome"><div class="wrap">
+  <div class="card">
+    <h1>Administrá tu página</h1>
+    <p>Desde acá cambiás las fotos de la galería, las secciones, las imágenes y los textos de la página, sin tocar código. Todo se guarda directo en la carpeta.</p>
+    <ol>
+      <li>Tocá el botón de abajo.</li>
+      <li>Elegí la carpeta de la página (la que tiene <b>index.html</b> y <b>config.js</b>).</li>
+      <li>Aceptá el permiso que te pide el navegador.</li>
+    </ol>
+    <button class="btn pri" id="elegir" type="button">Elegir la carpeta de la página</button>
+    <button class="btn" id="continuar" type="button" style="display:none;margin-left:8px"></button>
+    <div class="err" id="err" role="alert"></div>
+    <p style="margin:22px 0 0;font-size:14px">Funciona en Google Chrome y Microsoft Edge desde la computadora. Las fotos se achican solas para que la página cargue rápido.</p>
+  </div>
+</div></section>
+
+<main id="app"><div class="wrap">
+  <div class="alert" id="alert"></div>
+
+  <!-- Trabajos -->
+  <div class="pane" id="p-trabajos">
+    <p class="intro">Los trabajos de la galería. Tocá uno para cambiarle el título, la categoría o las fotos, o para borrarlo.</p>
+    <div class="bar">
+      <input class="search" id="q" type="search" placeholder="Buscar un trabajo…" aria-label="Buscar un trabajo">
+      <button class="btn pri" id="nuevo" type="button" style="margin-left:auto">+ Nuevo trabajo</button>
+    </div>
+    <div class="chips" id="chips" role="group" aria-label="Categorías"></div>
+    <p class="count" id="count"></p>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" style="display:none">No hay trabajos que coincidan.</div>
+  </div>
+
+  <!-- Secciones -->
+  <div class="pane" id="p-secciones">
+    <p class="intro">Elegí qué trabajos y fotos aparecen en cada parte de la página. Se muestran en el orden de la lista.</p>
+    <div id="secs"></div>
+  </div>
+
+  <!-- Imágenes -->
+  <div class="pane" id="p-imagenes">
+    <p class="intro">Las imágenes fijas de la página: los logos de “Trabajamos para” y las fotos de los materiales.</p>
+    <div class="scard"><h2>Trabajamos para</h2><p class="hint">Los logos de clientes e instituciones. Se ven en el inicio y, con el nombre, en el pie de la página.</p><div class="rows" id="cli"></div><button class="btn sm" id="cli-add" type="button">+ Agregar cliente</button></div>
+    <div class="scard"><h2>Fotos de materiales</h2><p class="hint">La foto de cada material de la sección “Materiales que trabajamos”. La nueva foto reemplaza a la actual y se recorta en cuadrado.</p><div class="mgrid" id="mats"></div></div>
+  </div>
+
+  <!-- Textos -->
+  <div class="pane" id="p-textos">
+    <p class="intro">Los títulos y descripciones de la página. Cambiá el texto y salí del cuadro para guardarlo. Los textos que cambiaste quedan marcados en azul y se pueden restaurar.</p>
+    <div class="bar"><input class="search" id="tq" type="search" placeholder="Buscar un texto…" aria-label="Buscar un texto"><span class="count" id="tcount" style="margin:0"></span></div>
+    <div id="tx"></div>
+  </div>
+</div></main>
+
+<!-- Detalle de un trabajo -->
+<dialog id="dw" aria-labelledby="dw-h">
+  <div class="dh"><h2 id="dw-h">Trabajo</h2><button class="x" type="button" data-close aria-label="Cerrar">×</button></div>
+  <div class="db">
+    <div class="row">
+      <div class="f"><label for="dw-t">Título</label><input id="dw-t" type="text" maxlength="120"></div>
+      <div class="f"><label for="dw-c">Categoría</label><select id="dw-c"></select></div>
+    </div>
+    <div class="note" id="dw-uso" style="display:none"></div>
+    <div><div class="lbl" style="margin-bottom:8px">Fotos <span class="mono" id="dw-n" style="font-weight:400;color:var(--muted)"></span></div><div class="photos" id="dw-p"></div></div>
+    <div class="drop" id="dw-drop">
+      <strong>Agregar fotos a este trabajo</strong>
+      <span>Arrastralas hasta acá o elegilas desde la computadora</span>
+      <div class="f" id="dw-rolebox" style="flex:none;min-width:220px;display:none"><label for="dw-role">Estas fotos son…</label><select id="dw-role"><option value="">Sin etiqueta</option><option value="a">Antes</option><option value="d">Después</option></select></div>
+      <button class="btn sm" id="dw-add" type="button">Elegir fotos</button>
+      <input id="dw-file" type="file" accept="image/*" multiple hidden>
+    </div>
+  </div>
+  <div class="df"><button class="btn danger" id="dw-del" type="button">Borrar el trabajo</button><button class="btn pri" type="button" data-close>Listo</button></div>
+</dialog>
+
+<!-- Nuevo trabajo -->
+<dialog id="dn" aria-labelledby="dn-h">
+  <form method="dialog" id="dn-form" novalidate>
+    <div class="dh"><h2 id="dn-h">Nuevo trabajo</h2><button class="x" type="button" data-close aria-label="Cerrar">×</button></div>
+    <div class="db">
+      <div class="row">
+        <div class="f"><label for="dn-t">Título *</label><input id="dn-t" type="text" maxlength="120" placeholder="Ej. Horno de secado" required></div>
+        <div class="f"><label for="dn-c">Categoría *</label><select id="dn-c"></select></div>
+      </div>
+      <div class="f" id="dn-rolebox" style="flex:none;max-width:320px;display:none"><label for="dn-role">Las fotos son…</label><select id="dn-role"><option value="">Sin etiqueta</option><option value="a">Antes</option><option value="d">Después</option></select></div>
+      <div class="drop" id="dn-drop">
+        <strong>Fotos del trabajo *</strong>
+        <span>Arrastralas hasta acá o elegilas desde la computadora (podés elegir varias)</span>
+        <button class="btn sm" id="dn-add" type="button">Elegir fotos</button>
+        <input id="dn-file" type="file" accept="image/*" multiple hidden>
+        <div class="picked" id="dn-picked"></div>
+      </div>
+      <div class="err" id="dn-err" role="alert"></div>
+    </div>
+    <div class="df"><button class="btn" type="button" data-close>Cancelar</button><button class="btn pri" id="dn-ok" type="submit">Crear trabajo</button></div>
+  </form>
+</dialog>
+
+<!-- Elegir trabajo o foto -->
+<dialog id="dp" aria-labelledby="dp-h">
+  <div class="dh"><h2 id="dp-h">Elegir</h2><button class="x" type="button" data-close aria-label="Cerrar">×</button></div>
+  <div class="db">
+    <input class="search" id="dp-q" type="search" placeholder="Buscar por título…" aria-label="Buscar por título" style="max-width:none">
+    <div class="pgrid" id="dp-grid"></div>
+    <div class="empty" id="dp-empty" style="display:none"></div>
+  </div>
+</dialog>
+
+<!-- Confirmación -->
+<dialog id="dc" style="max-width:480px">
+  <div class="dh"><h2>¿Seguro?</h2></div>
+  <div class="db"><p id="dc-msg" style="margin:0;white-space:pre-line"></p></div>
+  <div class="df"><button class="btn" id="dc-no" type="button">Cancelar</button><button class="btn danger" id="dc-yes" type="button">Sí, borrar</button></div>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function () {
+'use strict';
+
+// Solo funciona abierta desde la computadora (archivo local). Si alguien la abre desde internet, no hace nada.
+if (!(location.protocol === 'file:' || /^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname))) {
+  document.body.innerHTML = '<main style="max-width:520px;margin:12vh auto;padding:0 20px;font:16px/1.6 system-ui,sans-serif;color:#16222B"><h1 style="font-size:24px;margin:0 0 8px">Página no disponible</h1><p style="margin:0;color:#4E5D69">Esta herramienta es de uso interno y solo funciona desde la computadora del taller.</p></main>';
+  document.title = 'No disponible';
+  return;
+}
+
+var CATS = [['equipos','Equipos'],['restauraciones','Restauraciones'],['probetas','Probetas'],['dispositivos','Dispositivos'],['piezas','Piezas'],['moldes','Moldes y matrices'],['estructuras','Estructuras'],['taller','El taller']];
+var CATN = {}; CATS.forEach(function (c) { CATN[c[0]] = c[1]; });
+var SECN = { inicio: 'Inicio', trabajos: 'Servicios', proceso: 'Cómo trabajamos', materiales: 'Materiales', galeria: 'Galería', cotizar: 'Cotización', pie: 'Pie de página' };
+var TYPEN = { h1: 'Título principal', h2: 'Título', h3: 'Subtítulo', p: 'Párrafo', strong: 'Destacado', li: 'Lista', em: 'Énfasis', span: 'Texto' };
+var FILES = {
+  trab: { path: 'js/trabajos.js', name: 'TRABAJOS' },
+  cont: { path: 'js/contenido.js', name: 'CONTENIDO' },
+  tx:   { path: 'js/textos.js', name: 'TEXTOS' }
+};
+var $ = function (id) { return document.getElementById(id); };
+var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]; }); };
+var slug = function (s) { return String(s).normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'trabajo'; };
+var thumbPath = function (p) { return p.replace(/^img\/trabajos\//, 'img/miniaturas/'); };
+var nl = function (s) { return String(s).replace(/\r\n/g, '\n'); };
+
+var ROOT = null, DATA = [], CONT = {}, TX = {}, INDEX = null;
+var ui = { tab: 'trabajos', cat: 'todos', q: '', tq: '', open: null };
+var urlCache = {};
+
+/* ---------------- archivos ---------------- */
+async function dirOf(path, create) {
+  var parts = path.split('/'), file = parts.pop(), d = ROOT;
+  for (var i = 0; i < parts.length; i++) d = await d.getDirectoryHandle(parts[i], { create: !!create });
+  return [d, file];
+}
+async function readFile(path) { var r = await dirOf(path, false); return (await r[0].getFileHandle(r[1])).getFile(); }
+async function readText(path) { return (await readFile(path)).text(); }
+async function writeFile(path, data) {
+  var r = await dirOf(path, true), h = await r[0].getFileHandle(r[1], { create: true }), w = await h.createWritable();
+  await w.write(data); await w.close();
+}
+async function removeFile(path) {
+  try { var r = await dirOf(path, false); await r[0].removeEntry(r[1]); } catch (e) { if (e.name !== 'NotFoundError') throw e; }
+}
+async function exists(path) { try { await readFile(path); return true; } catch (e) { return false; } }
+
+/* ---------------- datos ---------------- */
+async function loadFile(k) {
+  var f = FILES[k], src;
+  try { src = await readText(f.path); } catch (e) { throw new Error('Falta ' + f.path); }
+  var i = src.indexOf('window.' + f.name);
+  var m = i < 0 ? null : src.slice(i).match(/=\s*([\s\S]*?)\s*;?\s*$/);
+  if (!m) throw new Error('No pude leer ' + f.path);
+  f.src = src; f.head = src.slice(0, i);
+  return JSON.parse(m[1]);
+}
+async function loadAll() {
+  var trab = await loadFile('trab'), cont = await loadFile('cont'), tx = await loadFile('tx');
+  DATA = trab; CONT = cont; TX = tx;
+  CONT.destacados = CONT.destacados || []; CONT.antesDespues = CONT.antesDespues || []; CONT.proceso = CONT.proceso || [];
+  CONT.mosaicos = CONT.mosaicos || {}; CONT.mosaicos.soldadura = CONT.mosaicos.soldadura || []; CONT.mosaicos.moldes = CONT.mosaicos.moldes || [];
+  CONT.clientes = CONT.clientes || [];
+  try { INDEX = new DOMParser().parseFromString(await readText('index.html'), 'text/html'); } catch (e) { INDEX = null; }
+  // todo trabajo necesita un id fijo; si falta, se arma con el título
+  var seen = {}, miss = false;
+  DATA.forEach(function (w) { if (!w.id) { miss = true; w.id = slug(w.t); } var b = w.id, n = 2; while (seen[w.id]) w.id = b + '-' + (n++); seen[w.id] = 1; });
+  if (miss) await saveTrab();
+}
+async function saveFile(k, body) {
+  var f = FILES[k], disk = '';
+  try { disk = await readText(f.path); } catch (e) {}
+  if (nl(disk) !== nl(f.src)) throw new Error('CONFLICT');
+  if (!f.backed) { await writeFile(f.path.replace(/\.js$/, '.respaldo.js'), f.src); f.backed = true; }
+  var text = f.head + 'window.' + f.name + ' = ' + body;
+  await writeFile(f.path, text); f.src = text;
+}
+function saveTrab() { return saveFile('trab', '[\n' + DATA.map(function (w) { return JSON.stringify(w); }).join(',\n') + '\n];\n'); }
+function saveCont() { return saveFile('cont', JSON.stringify(CONT, null, 2) + ';\n'); }
+function saveTx() { return saveFile('tx', JSON.stringify(TX, null, 2) + ';\n'); }
+
+var wById = function (id) { for (var i = 0; i < DATA.length; i++) if (DATA[i].id === id) return DATA[i]; return null; };
+function findPhoto(path) { for (var i = 0; i < DATA.length; i++) for (var k = 0; k < DATA[i].p.length; k++) if (DATA[i].p[k][0] === path) return { w: DATA[i], k: k }; return null; }
+var hasAD = function (w) { return w.p.some(function (p) { return p[1] === 'a'; }) && w.p.some(function (p) { return p[1] === 'd'; }); };
+
+/* qué partes de la página usan un trabajo o una foto */
+function usesOf(w, onlyPath) {
+  var paths = onlyPath ? [onlyPath] : w.p.map(function (p) { return p[0]; }), u = [];
+  if (!onlyPath && CONT.destacados.indexOf(w.id) >= 0) u.push('Destacados de la galería');
+  if (!onlyPath && CONT.antesDespues.indexOf(w.id) >= 0) u.push('Antes y después');
+  CONT.proceso.forEach(function (s, i) { if (paths.indexOf(s.f) >= 0) u.push('Paso ' + (i + 1) + ' del mecanizado (' + s.t + ')'); });
+  if (CONT.mosaicos.soldadura.some(function (p) { return paths.indexOf(p) >= 0; })) u.push('Fotos de Soldaduras');
+  if (CONT.mosaicos.moldes.some(function (p) { return paths.indexOf(p) >= 0; })) u.push('Fotos de Moldes y matrices');
+  return u;
+}
+function dropRefs(w, onlyPath) {
+  var paths = onlyPath ? [onlyPath] : w.p.map(function (p) { return p[0]; });
+  if (!onlyPath) { CONT.destacados = CONT.destacados.filter(function (i) { return i !== w.id; }); CONT.antesDespues = CONT.antesDespues.filter(function (i) { return i !== w.id; }); }
+  CONT.proceso.forEach(function (s) { if (paths.indexOf(s.f) >= 0) s.f = ''; });
+  ['soldadura', 'moldes'].forEach(function (k) { CONT.mosaicos[k] = CONT.mosaicos[k].filter(function (p) { return paths.indexOf(p) < 0; }); });
+}
+
+/* ---------------- imágenes ---------------- */
+async function renderImg(file, o) {
+  var bmp = await createImageBitmap(file), w = bmp.width, h = bmp.height, sx = 0, sy = 0, sw = w, sh = h;
+  if (o.square) { var s = Math.min(w, h); sx = (w - s) / 2; sy = (h - s) / 2; sw = sh = s; }
+  var k = Math.min(1, o.max / Math.max(sw, sh)), cw = Math.max(1, Math.round(sw * k)), ch = Math.max(1, Math.round(sh * k));
+  var c = document.createElement('canvas'); c.width = cw; c.height = ch;
+  var x = c.getContext('2d');
+  if (!o.png) { x.fillStyle = '#fff'; x.fillRect(0, 0, cw, ch); }
+  x.imageSmoothingQuality = 'high'; x.drawImage(bmp, sx, sy, sw, sh, 0, 0, cw, ch);
+  if (bmp.close) bmp.close();
+  return new Promise(function (res, rej) { c.toBlob(function (b) { b ? res(b) : rej(new Error('No se pudo convertir la imagen')); }, o.png ? 'image/png' : 'image/jpeg', o.q || 0.85); });
+}
+async function storePhoto(file, path) {
+  var full = await renderImg(file, { max: 1280, q: 0.85 }), th = await renderImg(file, { max: 520, q: 0.8 });
+  await writeFile(path, full); await writeFile(thumbPath(path), th);
+  delete urlCache[thumbPath(path)];
+}
+async function freeName(w, role) {
+  var base = slug(w.t) + (role === 'a' ? '-antes' : role === 'd' ? '-despues' : '');
+  var used = {}; DATA.forEach(function (x) { x.p.forEach(function (p) { used[p[0]] = 1; }); });
+  for (var n = 1; ; n++) {
+    var name = 'img/trabajos/' + w.c + '/' + base + '-' + n + '.jpg';
+    if (!used[name] && !(await exists(name))) return name;
+  }
+}
+async function addPhotos(w, files, role) {
+  var ok = 0, bad = [];
+  for (var i = 0; i < files.length; i++) {
+    toast('Procesando foto ' + (i + 1) + ' de ' + files.length + '…', 0, true);
+    try { var name = await freeName(w, role); await storePhoto(files[i], name); w.p.push([name, role || '']); ok++; }
+    catch (e) { bad.push(files[i].name); }
+  }
+  return { ok: ok, bad: bad };
+}
+async function thumbURL(path) {
+  var tp = thumbPath(path);
+  if (!urlCache[tp]) { try { urlCache[tp] = URL.createObjectURL(await readFile(tp)); } catch (e) { try { urlCache[tp] = URL.createObjectURL(await readFile(path)); } catch (e2) { urlCache[tp] = ''; } } }
+  return urlCache[tp];
+}
+var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+  es.forEach(function (e) { if (e.isIntersecting) { var im = e.target; io.unobserve(im); thumbURL(im.getAttribute('data-p')).then(function (u) { if (u) im.src = u; }); } });
+}, { rootMargin: '300px' }) : null;
+function lazyImgs(root) {
+  Array.prototype.forEach.call(root.querySelectorAll('img[data-p]'), function (im) {
+    if (io) io.observe(im); else thumbURL(im.getAttribute('data-p')).then(function (u) { if (u) im.src = u; });
+  });
+}
+var pickImg = function (multi, cb) {
+  var i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*'; i.multiple = multi;
+  i.onchange = function () { if (i.files.length) cb(Array.prototype.slice.call(i.files)); }; i.click();
+};
+
+/* ---------------- avisos ---------------- */
+var tt;
+function toast(msg, bad, keep) {
+  var t = $('toast'); t.textContent = msg; t.className = 'show' + (bad ? ' bad' : ''); clearTimeout(tt);
+  if (!keep) tt = setTimeout(function () { t.className = ''; }, bad ? 6000 : 2200);
+}
+function ask(msg, yes) {
+  return new Promise(function (res) {
+    $('dc-msg').textContent = msg; $('dc-yes').textContent = yes || 'Sí, borrar';
+    var d = $('dc'), done = function (v) { d.close(); res(v); };
+    $('dc-yes').onclick = function () { done(true); }; $('dc-no').onclick = function () { done(false); };
+    d.oncancel = function () { res(false); };
+    d.showModal();
+  });
+}
+async function run(fn) {
+  try { await fn(); }
+  catch (e) {
+    if (e && e.message === 'CONFLICT') {
+      try { if ($('dw').open) $('dw').close(); await loadAll(); renderAll(); } catch (e2) {}
+      toast('Los archivos cambiaron desde otra ventana. Cargué la versión nueva: repetí el cambio.', 1);
+    } else { console.error(e); toast('Algo falló: ' + (e && e.message || e), 1); }
+  }
+}
+
+/* ---------------- elegir trabajo o foto ---------------- */
+function pick(o) { // o: { kind: 'work'|'photo', title, filter }
+  return new Promise(function (res) {
+    var d = $('dp'), q = $('dp-q'), grid = $('dp-grid'), done = false;
+    $('dp-h').textContent = o.title; q.value = '';
+    var finish = function (v) { if (done) return; done = true; if (d.open) d.close(); res(v); };
+    function draw() {
+      var s = q.value.trim().toLowerCase(), items = [];
+      DATA.forEach(function (w) {
+        if (s && w.t.toLowerCase().indexOf(s) < 0) return;
+        if (o.kind === 'work') { if (!o.filter || o.filter(w)) items.push({ v: w.id, p: w.p[0][0], t: w.t }); }
+        else w.p.forEach(function (p, k) { if (!o.filter || o.filter(w, p)) items.push({ v: p[0], p: p[0], t: w.t + (w.p.length > 1 ? ' · foto ' + (k + 1) : '') }); });
+      });
+      grid.innerHTML = '';
+      items.forEach(function (it) {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'pitem'; b.setAttribute('aria-label', it.t);
+        b.innerHTML = '<div class="ph"><img data-p="' + esc(it.p) + '" alt=""></div><span>' + esc(it.t) + '</span>';
+        b.onclick = function () { finish(it.v); };
+        grid.appendChild(b);
+      });
+      $('dp-empty').style.display = items.length ? 'none' : 'block';
+      $('dp-empty').textContent = o.empty || 'No hay nada para elegir.';
+      lazyImgs(grid);
+    }
+    q.oninput = draw; d.onclose = function () { finish(null); };
+    draw(); d.showModal(); q.focus();
+  });
+}
+
+/* ---------------- pestaña: trabajos ---------------- */
+function renderGrid() {
+  var q = ui.q.trim().toLowerCase();
+  var chips = $('chips'); chips.innerHTML = '';
+  [['todos', 'Todos']].concat(CATS).forEach(function (c) {
+    var n = c[0] === 'todos' ? DATA.length : DATA.filter(function (w) { return w.c === c[0]; }).length;
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.setAttribute('aria-pressed', ui.cat === c[0]);
+    b.innerHTML = esc(c[1]) + '<small>' + n + '</small>';
+    b.onclick = function () { ui.cat = c[0]; renderGrid(); };
+    chips.appendChild(b);
+  });
+  var list = DATA.filter(function (w) { return (ui.cat === 'todos' || w.c === ui.cat) && (!q || w.t.toLowerCase().indexOf(q) >= 0); });
+  var g = $('grid'); g.innerHTML = '';
+  list.forEach(function (w) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'work';
+    b.innerHTML = '<div class="ph"><img data-p="' + esc(w.p[0][0]) + '" alt="">' + (w.p.length > 1 ? '<span class="tag">' + w.p.length + ' FOTOS</span>' : '') + '</div>' +
+      '<span class="tt">' + esc(w.t) + '</span><span class="mt">' + esc(CATN[w.c] || w.c) + '</span>';
+    b.onclick = function () { openWork(w); };
+    g.appendChild(b);
+  });
+  $('count').textContent = list.length + (list.length === 1 ? ' trabajo' : ' trabajos');
+  $('empty').style.display = list.length ? 'none' : 'block';
+  lazyImgs(g);
+}
+function fillCats(sel) { sel.innerHTML = CATS.map(function (c) { return '<option value="' + c[0] + '">' + esc(c[1]) + '</option>'; }).join(''); }
+function openWork(w) { ui.open = w; renderWork(); var d = $('dw'); if (!d.open) d.showModal(); }
+function renderWork() {
+  var w = ui.open, usesRoles = w.c === 'restauraciones' || w.p.some(function (p) { return p[1]; });
+  $('dw-h').textContent = w.t;
+  $('dw-t').value = w.t; fillCats($('dw-c')); $('dw-c').value = w.c;
+  var u = usesOf(w); $('dw-uso').style.display = u.length ? 'block' : 'none';
+  $('dw-uso').textContent = u.length ? 'Este trabajo aparece también en: ' + u.join(' · ') + '.' : '';
+  $('dw-rolebox').style.display = w.c === 'restauraciones' ? 'flex' : 'none';
+  $('dw-n').textContent = '(' + w.p.length + ')';
+  var box = $('dw-p'); box.innerHTML = '';
+  w.p.forEach(function (p, k) {
+    var el = document.createElement('div'); el.className = 'pt';
+    el.innerHTML = '<div class="ph"><img data-p="' + esc(p[0]) + '" alt=""><span class="n">' + (k + 1) + '</span></div><div class="ac"></div>';
+    var ac = el.querySelector('.ac');
+    if (usesRoles) {
+      var s = document.createElement('select'); s.setAttribute('aria-label', 'Etiqueta de la foto ' + (k + 1));
+      s.innerHTML = '<option value="">Sin etiqueta</option><option value="a">Antes</option><option value="d">Después</option>'; s.value = p[1] || '';
+      s.onchange = function () { run(async function () { p[1] = s.value; await saveTrab(); renderAll(); renderWork(); toast('Guardado'); }); };
+      ac.appendChild(s);
+    }
+    var mk = function (txt, cls, label, dis, fn) { var b = document.createElement('button'); b.type = 'button'; b.className = 'ib ' + cls; b.textContent = txt; b.title = label; b.setAttribute('aria-label', label + ' (foto ' + (k + 1) + ')'); b.disabled = dis; b.onclick = fn; ac.appendChild(b); };
+    mk('◀', '', 'Mover antes', k === 0, function () { run(function () { return movePhoto(w, k, -1); }); });
+    mk('▶', '', 'Mover después', k === w.p.length - 1, function () { run(function () { return movePhoto(w, k, 1); }); });
+    mk('Cambiar', '', 'Cambiar por otra foto', false, function () { pickImg(false, function (f) { run(function () { return replacePhoto(w, k, f[0]); }); }); });
+    mk('Borrar', 'red', 'Borrar foto', w.p.length < 2, function () { run(function () { return deletePhoto(w, k); }); });
+    box.appendChild(el);
+  });
+  lazyImgs(box);
+}
+async function movePhoto(w, k, d) {
+  var t = w.p[k]; w.p[k] = w.p[k + d]; w.p[k + d] = t; await saveTrab(); renderWork(); renderGrid(); toast('Guardado');
+}
+async function replacePhoto(w, k, file) {
+  toast('Procesando foto…', 0, true);
+  try { await storePhoto(file, w.p[k][0]); } catch (e) { toast('No pude leer esa imagen. Probá con un JPG o PNG.', 1); return; }
+  renderWork(); renderAll(); toast('Foto cambiada. Si la página está abierta, actualizala con Ctrl+F5.');
+}
+async function deletePhoto(w, k) {
+  var path = w.p[k][0], u = usesOf(w, path);
+  if (!(await ask('Se va a borrar la foto ' + (k + 1) + ' de "' + w.t + '". No se puede deshacer.' + (u.length ? '\n\nSe usa en: ' + u.join(' · ') + '.\nSe va a quitar de ahí.' : ''), 'Sí, borrar foto'))) return;
+  w.p.splice(k, 1); dropRefs(w, path);
+  await saveTrab(); await saveCont(); await removeFile(path); await removeFile(thumbPath(path));
+  renderWork(); renderAll(); toast('Foto borrada');
+}
+async function deleteWork(w) {
+  var u = usesOf(w);
+  if (!(await ask('Se va a borrar "' + w.t + '" con sus ' + w.p.length + ' foto(s). No se puede deshacer.' + (u.length ? '\n\nTambién se quita de: ' + u.join(' · ') + '.' : ''), 'Sí, borrar trabajo'))) return;
+  var paths = w.p.map(function (p) { return p[0]; });
+  dropRefs(w); DATA.splice(DATA.indexOf(w), 1);
+  await saveTrab(); await saveCont();
+  for (var i = 0; i < paths.length; i++) { await removeFile(paths[i]); await removeFile(thumbPath(paths[i])); }
+  if ($('dw').open) $('dw').close();
+  renderAll(); toast('Trabajo borrado');
+}
+async function addToWork(files) {
+  var w = ui.open; if (!files.length) return;
+  var r = await addPhotos(w, files, $('dw-rolebox').style.display === 'none' ? '' : $('dw-role').value);
+  if (r.ok) await saveTrab();
+  renderWork(); renderAll();
+  if (r.bad.length) toast('No pude leer: ' + r.bad.join(', ') + '. Probá con JPG o PNG.', 1);
+  else toast(r.ok + (r.ok === 1 ? ' foto agregada' : ' fotos agregadas'));
+}
+function dropZone(zone, cb) {
+  ['dragenter', 'dragover'].forEach(function (n) { zone.addEventListener(n, function (e) { e.preventDefault(); zone.classList.add('over'); }); });
+  ['dragleave', 'drop'].forEach(function (n) { zone.addEventListener(n, function (e) { e.preventDefault(); zone.classList.remove('over'); }); });
+  zone.addEventListener('drop', function (e) { cb(Array.prototype.filter.call(e.dataTransfer.files, function (f) { return /^image\//.test(f.type); })); });
+}
+var newFiles = [];
+function setNewFiles(fs) { newFiles = fs; $('dn-picked').textContent = fs.length ? fs.length + (fs.length === 1 ? ' foto elegida' : ' fotos elegidas') : ''; }
+function openNew() {
+  fillCats($('dn-c')); $('dn-c').value = ui.cat !== 'todos' ? ui.cat : 'equipos';
+  $('dn-t').value = ''; $('dn-role').value = ''; setNewFiles([]); $('dn-err').className = 'err';
+  $('dn-rolebox').style.display = $('dn-c').value === 'restauraciones' ? 'flex' : 'none';
+  $('dn').showModal(); $('dn-t').focus();
+}
+async function createWork() {
+  var t = $('dn-t').value.trim(), err = $('dn-err'), bad = function (m) { err.textContent = m; err.className = 'err show'; };
+  if (!t) return bad('Escribí un título.');
+  if (DATA.some(function (w) { return w.t.toLowerCase() === t.toLowerCase(); })) return bad('Ya hay un trabajo con ese título.');
+  if (!newFiles.length) return bad('Elegí al menos una foto.');
+  var id = slug(t), n = 2, base = id; while (wById(id)) id = base + '-' + (n++);
+  var w = { id: id, c: $('dn-c').value, t: t, p: [] };
+  $('dn-ok').disabled = true;
+  try {
+    var r = await addPhotos(w, newFiles, $('dn-rolebox').style.display === 'none' ? '' : $('dn-role').value);
+    if (!r.ok) return bad('No pude leer las fotos. Probá con JPG o PNG.');
+    DATA.push(w); await saveTrab();
+    $('dn').close(); ui.cat = 'todos'; ui.q = ''; $('q').value = ''; renderAll();
+    toast(r.bad.length ? 'Trabajo creado, pero no pude leer: ' + r.bad.join(', ') : 'Trabajo creado', r.bad.length);
+  } finally { $('dn-ok').disabled = false; }
+}
+
+/* ---------------- pestaña: secciones ---------------- */
+function rowEl(o) { // o: { th, name, sub, warn, btns:[...] }
+  var r = document.createElement('div'); r.className = 'row-i';
+  r.innerHTML = '<div class="th">' + (o.th ? '<img data-p="' + esc(o.th) + '" alt="">' : '') + '</div><div class="nm">' + esc(o.name) + (o.sub ? '<small>' + esc(o.sub) + '</small>' : '') + (o.warn ? '<small class="w">' + esc(o.warn) + '</small>' : '') + '</div><div class="btns"></div>';
+  var bx = r.querySelector('.btns');
+  o.btns.forEach(function (b) { var e = document.createElement('button'); e.type = 'button'; e.className = 'ib' + (b.red ? ' red' : ''); e.textContent = b.t; e.title = b.l; e.setAttribute('aria-label', b.l); e.disabled = !!b.dis; e.onclick = function () { run(b.fn); }; bx.appendChild(e); });
+  return r;
+}
+function moveIn(arr, i, d) { var t = arr[i]; arr[i] = arr[i + d]; arr[i + d] = t; }
+function listCard(o) { // o: { title, hint, arr, kind, max, filter, pickTitle, emptyMsg }
+  var card = document.createElement('div'); card.className = 'scard';
+  card.innerHTML = '<h2>' + esc(o.title) + '</h2><p class="hint">' + esc(o.hint) + '</p><div class="rows"></div>';
+  var rows = card.querySelector('.rows');
+  var persist = async function () { await saveCont(); renderSecciones(); toast('Guardado'); };
+  o.arr.forEach(function (v, i) {
+    var w, name, sub = '', warn = '', th = '';
+    if (o.kind === 'work') { w = wById(v); name = w ? w.t : v; th = w ? w.p[0][0] : ''; sub = w ? (CATN[w.c] || w.c) + ' · ' + w.p.length + ' fotos' : ''; if (!w) warn = 'Este trabajo ya no existe.'; else if (o.filter && !o.filter(w)) warn = 'No se muestra: le faltan fotos de antes o de después.'; }
+    else { var h = findPhoto(v); name = h ? h.w.t : v; th = v; sub = h ? 'Foto ' + (h.k + 1) + ' de ' + h.w.p.length : ''; if (!h) warn = 'Esta foto ya no existe.'; }
+    var btns = [
+      { t: '▲', l: 'Subir', dis: i === 0, fn: async function () { moveIn(o.arr, i, -1); await persist(); } },
+      { t: '▼', l: 'Bajar', dis: i === o.arr.length - 1, fn: async function () { moveIn(o.arr, i, 1); await persist(); } },
+      { t: 'Cambiar', l: 'Cambiar por otro', fn: async function () { var x = await pick({ kind: o.kind, title: o.pickTitle, filter: o.filter, empty: o.emptyMsg }); if (x) { o.arr[i] = x; await persist(); } } },
+      { t: 'Quitar', l: 'Quitar de la lista', red: 1, fn: async function () { o.arr.splice(i, 1); await persist(); } }
+    ];
+    rows.appendChild(rowEl({ th: th, name: name, sub: sub, warn: warn, btns: btns }));
+  });
+  if (!o.arr.length) { var p = document.createElement('p'); p.className = 'hint'; p.style.margin = '0 0 4px'; p.textContent = 'No hay nada en esta lista: esa parte de la página no se muestra.'; rows.appendChild(p); }
+  var add = document.createElement('button'); add.type = 'button'; add.className = 'btn sm'; add.textContent = '+ Agregar'; add.disabled = o.arr.length >= o.max;
+  add.onclick = function () { run(async function () { var x = await pick({ kind: o.kind, title: o.pickTitle, filter: o.filter, empty: o.emptyMsg }); if (x) { if (o.arr.indexOf(x) >= 0) { toast('Ya está en la lista', 1); return; } o.arr.push(x); await persist(); } }); };
+  card.appendChild(add);
+  if (o.arr.length >= o.max) { var m = document.createElement('span'); m.className = 'hint'; m.style.marginLeft = '10px'; m.textContent = 'Máximo ' + o.max; card.appendChild(m); }
+  return card;
+}
+function procCard() {
+  var card = document.createElement('div'); card.className = 'scard';
+  card.innerHTML = '<h2>Pasos del mecanizado</h2><p class="hint">Los pasos con foto de la sección “Cortes y mecanizados” (corte, torneado, fresado…).</p><div class="rows"></div>';
+  var rows = card.querySelector('.rows'), arr = CONT.proceso;
+  var persist = async function () { await saveCont(); renderSecciones(); toast('Guardado'); };
+  arr.forEach(function (s, i) {
+    var r = document.createElement('div'); r.className = 'row-i';
+    r.innerHTML = '<div class="th">' + (s.f ? '<img data-p="' + esc(s.f) + '" alt="">' : '') + '</div>' +
+      '<div class="fld"><label>Título del paso ' + (i + 1) + '</label><input type="text" data-k="t" maxlength="40" value="' + esc(s.t) + '"></div>' +
+      '<div class="fld"><label>Descripción</label><input type="text" data-k="d" maxlength="90" value="' + esc(s.d) + '"></div><div class="btns"></div>' + (s.f && findPhoto(s.f) ? '' : '<div class="nm" style="flex-basis:100%"><small class="w">Este paso no tiene foto: elegí una.</small></div>');
+    Array.prototype.forEach.call(r.querySelectorAll('input'), function (inp) { inp.onchange = function () { run(async function () { s[inp.getAttribute('data-k')] = inp.value.trim(); await saveCont(); toast('Guardado'); }); }; });
+    var bx = r.querySelector('.btns');
+    [{ t: '▲', l: 'Subir', dis: i === 0, fn: async function () { moveIn(arr, i, -1); await persist(); } },
+     { t: '▼', l: 'Bajar', dis: i === arr.length - 1, fn: async function () { moveIn(arr, i, 1); await persist(); } },
+     { t: 'Foto', l: 'Elegir otra foto', fn: async function () { var x = await pick({ kind: 'photo', title: 'Elegí la foto del paso ' + (i + 1) }); if (x) { s.f = x; await persist(); } } },
+     { t: 'Quitar', l: 'Quitar el paso', red: 1, fn: async function () { arr.splice(i, 1); await persist(); } }].forEach(function (b) {
+      var e = document.createElement('button'); e.type = 'button'; e.className = 'ib' + (b.red ? ' red' : ''); e.textContent = b.t; e.title = b.l; e.setAttribute('aria-label', b.l + ' (paso ' + (i + 1) + ')'); e.disabled = !!b.dis; e.onclick = function () { run(b.fn); }; bx.appendChild(e); });
+    rows.appendChild(r);
+  });
+  var add = document.createElement('button'); add.type = 'button'; add.className = 'btn sm'; add.textContent = '+ Agregar paso'; add.disabled = arr.length >= 6;
+  add.onclick = function () { run(async function () { var x = await pick({ kind: 'photo', title: 'Elegí la foto del nuevo paso' }); if (x) { arr.push({ t: 'Nuevo paso', d: 'Descripción del paso', f: x }); await persist(); } }); };
+  card.appendChild(add);
+  return card;
+}
+function renderSecciones() {
+  var box = $('secs'); box.innerHTML = '';
+  box.appendChild(listCard({ title: 'Destacados de la galería', hint: 'Los trabajos grandes que aparecen primero en la galería (hasta 6).', arr: CONT.destacados, kind: 'work', max: 6, pickTitle: 'Elegí un trabajo destacado' }));
+  box.appendChild(listCard({ title: 'Antes y después', hint: 'Los trabajos del comparador deslizable. Solo sirven los que tienen fotos marcadas como “Antes” y como “Después”.', arr: CONT.antesDespues, kind: 'work', max: 10, filter: hasAD, pickTitle: 'Elegí un trabajo con antes y después', emptyMsg: 'No hay trabajos con fotos de antes y después.' }));
+  box.appendChild(procCard());
+  box.appendChild(listCard({ title: 'Fotos de Soldaduras', hint: 'Las fotos chicas de la sección “Soldaduras”. La primera se ve más grande.', arr: CONT.mosaicos.soldadura, kind: 'photo', max: 4, pickTitle: 'Elegí una foto de soldadura' }));
+  box.appendChild(listCard({ title: 'Fotos de Moldes y matrices', hint: 'Las fotos chicas de la sección “Moldes y matrices”. La primera se ve más grande.', arr: CONT.mosaicos.moldes, kind: 'photo', max: 4, pickTitle: 'Elegí una foto de moldes' }));
+  lazyImgs(box);
+}
+
+/* ---------------- pestaña: imágenes ---------------- */
+function renderClientes() {
+  var box = $('cli'); box.innerHTML = '';
+  var persist = async function () { await saveCont(); renderClientes(); toast('Guardado'); };
+  CONT.clientes.forEach(function (c, i) {
+    var r = document.createElement('div'); r.className = 'row-i';
+    r.innerHTML = '<div class="logo-th"><img data-p="' + esc(c.img) + '" alt=""></div>' +
+      '<div class="fld" style="flex:0 1 100px"><label>Sigla</label><input type="text" data-k="c" maxlength="12" value="' + esc(c.c || '') + '"></div>' +
+      '<div class="fld"><label>Nombre</label><input type="text" data-k="n" maxlength="70" value="' + esc(c.n) + '"></div>' +
+      '<div class="fld" style="flex:0 1 90px"><label>Alto (px)</label><input type="number" data-k="h" min="24" max="140" value="' + (+c.h || 60) + '"></div><div class="btns"></div>';
+    Array.prototype.forEach.call(r.querySelectorAll('input'), function (inp) { inp.onchange = function () { run(async function () { var k = inp.getAttribute('data-k'); c[k] = k === 'h' ? Math.max(24, Math.min(140, +inp.value || 60)) : inp.value.trim(); await saveCont(); toast('Guardado'); }); }; });
+    var bx = r.querySelector('.btns');
+    [{ t: '▲', l: 'Subir', dis: i === 0, fn: async function () { moveIn(CONT.clientes, i, -1); await persist(); } },
+     { t: '▼', l: 'Bajar', dis: i === CONT.clientes.length - 1, fn: async function () { moveIn(CONT.clientes, i, 1); await persist(); } },
+     { t: 'Cambiar logo', l: 'Cambiar el logo', fn: async function () { pickImg(false, function (f) { run(function () { return setLogo(c, f[0]); }); }); } },
+     { t: 'Quitar', l: 'Quitar el cliente', red: 1, fn: async function () { if (await ask('Se va a quitar "' + c.n + '" de la lista de clientes (el archivo del logo se borra).', 'Sí, quitar')) { CONT.clientes.splice(i, 1); await saveCont(); if (!CONT.clientes.some(function (x) { return x.img === c.img; })) await removeFile(c.img); renderClientes(); toast('Cliente quitado'); } } }].forEach(function (b) {
+      var e = document.createElement('button'); e.type = 'button'; e.className = 'ib' + (b.red ? ' red' : ''); e.textContent = b.t; e.title = b.l; e.setAttribute('aria-label', b.l + ' (' + c.n + ')'); e.disabled = !!b.dis; e.onclick = function () { run(b.fn); }; bx.appendChild(e); });
+    box.appendChild(r);
+  });
+  if (!CONT.clientes.length) { var p = document.createElement('p'); p.className = 'hint'; p.textContent = 'No hay clientes: esa parte de la página no se muestra.'; box.appendChild(p); }
+  lazyImgs(box);
+}
+async function setLogo(c, file) {
+  toast('Procesando logo…', 0, true);
+  var blob;
+  try { blob = await renderImg(file, { max: 600, png: true }); } catch (e) { toast('No pude leer esa imagen. Probá con un PNG o JPG.', 1); return; }
+  await writeFile(c.img, blob); delete urlCache[thumbPath(c.img)]; renderClientes(); toast('Logo cambiado. Si la página está abierta, actualizala con Ctrl+F5.');
+}
+async function addCliente(file, nombre) {
+  var base = 'img/clientes/' + slug(nombre), path = base + '.png', n = 2;
+  while (await exists(path) || CONT.clientes.some(function (x) { return x.img === path; })) path = base + '-' + (n++) + '.png';
+  var blob; try { blob = await renderImg(file, { max: 600, png: true }); } catch (e) { toast('No pude leer esa imagen. Probá con un PNG o JPG.', 1); return; }
+  await writeFile(path, blob);
+  CONT.clientes.push({ c: '', n: nombre, img: path, h: 60 }); await saveCont(); renderClientes(); toast('Cliente agregado. Completá la sigla y el alto si hace falta.');
+}
+var MATS = [];
+function collectMats() {
+  MATS = [];
+  if (!INDEX) return;
+  Array.prototype.forEach.call(INDEX.querySelectorAll('.mat'), function (m) {
+    var im = m.querySelector('img'), h = m.querySelector('h3'); if (!im) return;
+    var key = h && h.getAttribute('data-t');
+    MATS.push({ src: im.getAttribute('src'), alt: im.getAttribute('alt') || '', name: (key && TX[key]) || (h ? h.textContent.trim() : im.getAttribute('alt')) });
+  });
+}
+function renderMats() {
+  collectMats();
+  var box = $('mats'); box.innerHTML = '';
+  MATS.forEach(function (m) {
+    var d = document.createElement('div'); d.className = 'mitem';
+    d.innerHTML = '<div class="ph"><img data-p="' + esc(m.src) + '" alt="' + esc(m.alt) + '"></div><div class="mb"><strong>' + esc(m.name) + '</strong><button type="button" class="btn sm">Cambiar foto</button></div>';
+    d.querySelector('button').onclick = function () { pickImg(false, function (f) { run(async function () {
+      toast('Procesando foto…', 0, true);
+      var blob; try { blob = await renderImg(f[0], { max: 600, q: 0.88, square: true }); } catch (e) { toast('No pude leer esa imagen. Probá con un JPG o PNG.', 1); return; }
+      await writeFile(m.src, blob); delete urlCache[thumbPath(m.src)]; renderMats(); toast('Foto cambiada. Si la página está abierta, actualizala con Ctrl+F5.');
+    }); }); };
+    box.appendChild(d);
+  });
+  if (!MATS.length) box.innerHTML = '<p class="hint">No encontré fotos de materiales en index.html.</p>';
+  lazyImgs(box);
+}
+
+/* ---------------- pestaña: textos ---------------- */
+var TEXTS = [];
+function lastText(e) { for (var n = e.lastChild; n; n = n.previousSibling) if (n.nodeType === 3 && n.textContent.trim()) return n.textContent.trim(); return e.textContent.trim(); }
+function collectTexts() {
+  TEXTS = [];
+  if (!INDEX) return;
+  Array.prototype.forEach.call(INDEX.querySelectorAll('[data-t]'), function (e) {
+    var key = e.getAttribute('data-t'); TEXTS.push({ key: key, sec: key.replace(/-\d+$/, ''), type: e.tagName.toLowerCase(), def: lastText(e) });
+  });
+}
+function renderTextos() {
+  collectTexts();
+  var box = $('tx'); box.innerHTML = ''; var q = ui.tq.trim().toLowerCase(), shown = 0, mods = 0;
+  var bySec = {}; TEXTS.forEach(function (t) { (bySec[t.sec] = bySec[t.sec] || []).push(t); if (TX[t.key] != null && TX[t.key] !== t.def) mods++; });
+  Object.keys(SECN).forEach(function (sec) {
+    var items = (bySec[sec] || []).filter(function (t) { var cur = TX[t.key] != null ? TX[t.key] : t.def; return !q || cur.toLowerCase().indexOf(q) >= 0 || t.def.toLowerCase().indexOf(q) >= 0; });
+    if (!items.length) return;
+    var g = document.createElement('div'); g.className = 'tgroup'; g.innerHTML = '<h2>' + esc(SECN[sec]) + '<small>' + items.length + '</small></h2>';
+    items.forEach(function (t) {
+      shown++;
+      var cur = TX[t.key] != null ? TX[t.key] : t.def, mod = cur !== t.def;
+      var d = document.createElement('div'); d.className = 'titem' + (mod ? ' mod' : '');
+      d.innerHTML = '<div class="tl"><span>' + esc(TYPEN[t.type] || 'Texto') + '</span>' + (mod ? '<button type="button" class="linkb">Restaurar el original</button>' : '') + '</div><textarea rows="' + Math.max(1, Math.min(6, Math.ceil(cur.length / 90))) + '" maxlength="600" aria-label="' + esc((TYPEN[t.type] || 'Texto') + ' de ' + SECN[sec]) + '">' + esc(cur) + '</textarea>';
+      var ta = d.querySelector('textarea');
+      ta.onchange = function () { run(function () { return setText(t, ta.value); }); };
+      var rb = d.querySelector('.linkb'); if (rb) rb.onclick = function () { run(function () { return setText(t, t.def); }); };
+      g.appendChild(d);
+    });
+    box.appendChild(g);
+  });
+  if (!shown) box.innerHTML = '<div class="empty">No hay textos que coincidan.</div>';
+  $('tcount').textContent = mods ? mods + (mods === 1 ? ' texto modificado' : ' textos modificados') : '';
+}
+async function setText(t, v) {
+  v = v.replace(/\s+/g, ' ').trim();
+  if (!v) { toast('El texto no puede quedar vacío. Para volver al original usá “Restaurar el original”.', 1); renderTextos(); return; }
+  if (v === t.def) delete TX[t.key]; else TX[t.key] = v;
+  await saveTx(); renderTextos(); renderMats(); toast('Guardado. Actualizá la página con Ctrl+F5 para verlo.');
+}
+
+/* ---------------- pestañas e inicio ---------------- */
+function renderAll() {
+  renderGrid(); renderSecciones(); renderClientes(); renderMats(); renderTextos();
+  var bad = DATA.filter(function (w) { return !CATN[w.c]; }).length;
+  $('alert').style.display = bad ? 'block' : 'none';
+  if (bad) $('alert').textContent = 'Hay ' + bad + ' trabajo(s) con una categoría que esta página no conoce.';
+}
+function setTab(k) {
+  ui.tab = k;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function (b) { b.setAttribute('aria-selected', b.getAttribute('data-k') === k); });
+  Array.prototype.forEach.call(document.querySelectorAll('.pane'), function (p) { p.classList.toggle('on', p.id === 'p-' + k); });
+}
+function buildTabs() {
+  var bx = document.querySelector('#tabs .wrap'); bx.innerHTML = '';
+  [['trabajos', 'Trabajos de la galería'], ['secciones', 'Secciones de la página'], ['imagenes', 'Imágenes'], ['textos', 'Textos']].forEach(function (t) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'tab'; b.setAttribute('role', 'tab'); b.setAttribute('data-k', t[0]); b.textContent = t[1];
+    b.onclick = function () { setTab(t[0]); }; bx.appendChild(b);
+  });
+}
+async function start(handle) {
+  ROOT = handle;
+  try { await loadAll(); }
+  catch (e) {
+    ROOT = null;
+    showErr(/Falta js\/(contenido|textos)/.test(e.message) ? 'Esta carpeta tiene una versión vieja de la página (' + e.message + '). Usá la carpeta actualizada.' : 'Esa carpeta no parece ser la de la página (' + e.message + '). Elegí la carpeta que contiene index.html y config.js.');
+    return false;
+  }
+  $('welcome').style.display = 'none'; $('app').style.display = 'block'; $('tabs').style.display = 'block';
+  $('folder').style.display = 'inline-flex'; $('folder-name').textContent = handle.name || 'carpeta';
+  $('ver').style.display = ''; $('cambiar').style.display = '';
+  buildTabs(); setTab(ui.tab); renderAll();
+  return true;
+}
+function showErr(m) { var e = $('err'); e.textContent = m; e.className = 'err show'; }
+
+/* recordar la carpeta elegida */
+function idb() { return new Promise(function (res, rej) { var r = indexedDB.open('mecalab-admin', 1); r.onupgradeneeded = function () { r.result.createObjectStore('k'); }; r.onsuccess = function () { res(r.result); }; r.onerror = function () { rej(r.error); }; }); }
+async function idbGet(k) { try { var db = await idb(); return await new Promise(function (res) { var q = db.transaction('k').objectStore('k').get(k); q.onsuccess = function () { res(q.result); }; q.onerror = function () { res(null); }; }); } catch (e) { return null; } }
+async function idbSet(k, v) { try { var db = await idb(); await new Promise(function (res) { var tx = db.transaction('k', 'readwrite'); tx.objectStore('k').put(v, k); tx.oncomplete = res; tx.onerror = res; }); } catch (e) {} }
+async function elegir() {
+  if (!window.showDirectoryPicker) { showErr('Este navegador no permite elegir carpetas. Abrí esta página con Google Chrome o Microsoft Edge.'); return; }
+  try { var h = await window.showDirectoryPicker({ mode: 'readwrite', id: 'mecalab-web' }); if (await start(h)) idbSet('root', h); }
+  catch (e) { if (e.name !== 'AbortError') showErr('No pude abrir la carpeta: ' + e.message); }
+}
+
+$('elegir').onclick = elegir;
+$('cambiar').onclick = function () { $('app').style.display = 'none'; $('tabs').style.display = 'none'; $('welcome').style.display = 'block'; $('folder').style.display = 'none'; $('ver').style.display = 'none'; $('cambiar').style.display = 'none'; };
+$('q').oninput = function () { ui.q = this.value; renderGrid(); };
+$('tq').oninput = function () { ui.tq = this.value; renderTextos(); };
+$('nuevo').onclick = openNew;
+$('cli-add').onclick = function () {
+  var nombre = (window.prompt('Nombre del cliente o institución:') || '').trim(); if (!nombre) return;
+  pickImg(false, function (f) { run(function () { return addCliente(f[0], nombre); }); });
+};
+Array.prototype.forEach.call(document.querySelectorAll('[data-close]'), function (b) { b.onclick = function () { b.closest('dialog').close(); }; });
+$('dw').addEventListener('close', function () { ui.open = null; renderAll(); });
+$('dw-t').onchange = function () { run(async function () {
+  var w = ui.open, t = $('dw-t').value.trim();
+  if (!t || t === w.t) { $('dw-t').value = w.t; return; }
+  if (DATA.some(function (x) { return x !== w && x.t.toLowerCase() === t.toLowerCase(); })) { toast('Ya hay un trabajo con ese título', 1); $('dw-t').value = w.t; return; }
+  w.t = t; await saveTrab(); renderWork(); renderGrid(); toast('Guardado');
+}); };
+$('dw-c').onchange = function () { run(async function () { ui.open.c = $('dw-c').value; await saveTrab(); renderWork(); renderGrid(); toast('Guardado'); }); };
+$('dw-del').onclick = function () { run(function () { return deleteWork(ui.open); }); };
+$('dw-add').onclick = function () { $('dw-file').click(); };
+$('dw-file').onchange = function () { var f = Array.prototype.slice.call(this.files); this.value = ''; run(function () { return addToWork(f); }); };
+dropZone($('dw-drop'), function (f) { run(function () { return addToWork(f); }); });
+$('dn-add').onclick = function () { $('dn-file').click(); };
+$('dn-file').onchange = function () { setNewFiles(Array.prototype.slice.call(this.files)); };
+dropZone($('dn-drop'), setNewFiles);
+$('dn-c').onchange = function () { $('dn-rolebox').style.display = this.value === 'restauraciones' ? 'flex' : 'none'; };
+$('dn-form').onsubmit = function (e) { e.preventDefault(); run(createWork); };
+['dw', 'dn', 'dp'].forEach(function (id) { $(id).addEventListener('mousedown', function (e) { if (e.target === this) this.close(); }); });
+
+// si cambian los archivos desde otra ventana, al volver a esta se recargan
+window.addEventListener('focus', function () { run(async function () {
+  if (!ROOT || $('app').style.display !== 'block' || document.querySelector('dialog[open]')) return;
+  var ch = false;
+  for (var k in FILES) { var d = ''; try { d = await readText(FILES[k].path); } catch (e) {} if (nl(d) !== nl(FILES[k].src)) ch = true; }
+  if (ch) { await loadAll(); renderAll(); toast('Se actualizó con los últimos cambios de la carpeta.'); }
+}); });
+
+window.__admin = { start: start, state: function () { return { DATA: DATA, CONT: CONT, TX: TX, TEXTS: TEXTS, MATS: MATS }; }, addPhotos: addPhotos, setText: setText, deleteWork: deleteWork, usesOf: usesOf, setTab: setTab, addCliente: addCliente, setLogo: setLogo };
+
+(async function init() {
+  var h = await idbGet('root');
+  if (!h || !h.queryPermission) return;
+  var b = $('continuar'); b.textContent = 'Continuar con "' + h.name + '"'; b.style.display = '';
+  b.onclick = async function () {
+    try { if ((await h.requestPermission({ mode: 'readwrite' })) === 'granted') { await start(h); } else showErr('Sin el permiso no puedo abrir la carpeta.'); }
+    catch (e) { showErr('No pude abrir la carpeta guardada. Elegila de nuevo.'); }
+  };
+  try { if ((await h.queryPermission({ mode: 'readwrite' })) === 'granted') { await start(h); } } catch (e) {}
+})();
+})();
+</script>
+</body>
+</html>

@@ -1,22 +1,76 @@
-LANDING DEL TALLER - CÓMO USARLA
-================================
+MECALAB - LANDING DEL TALLER
+David Annessi Mecanizados
+===========================
 
-1) Completá los datos del taller en config.js (se abre con el Bloc de notas).
-   Nombre, ciudad, WhatsApp, teléfono, email, dirección, horario, etc.
+QUÉ HAY EN LA CARPETA
+---------------------
+  index.html          La página.
+  config.js           Datos del taller (nombre, contacto, horario...). Es lo único
+                      que hace falta tocar para cambiar datos.
+  css/estilos.css     Diseño de la página.
+  admin.html          Administrador: fotos, secciones, imágenes y textos de la página.
+  js/main.js          Galería, visor de fotos, formulario y animaciones.
+  js/trabajos.js      Lista de trabajos de la galería (la edita admin.html).
+  js/contenido.js     Secciones: destacados, antes/después, pasos, mosaicos, clientes.
+  js/textos.js        Textos modificados desde la admin.
+  js/horno-3d.js      Visor 3D del horno rotativo.
+  img/
+    trabajos/         Fotos de los trabajos, una carpeta por categoría:
+                      equipos, restauraciones, probetas, dispositivos,
+                      piezas, moldes, estructuras, taller.
+                      En las restauraciones, "-antes-" y "-despues-" en el
+                      nombre indican de qué lado del comparador va cada foto.
+    miniaturas/       Versión chica de cada foto de trabajos (misma carpeta
+                      y mismo nombre). La galería la usa para cargar rápido.
+    materiales/       Fotos de la sección "Materiales que trabajamos".
+    clientes/         Logos de "Trabajamos para".
+    logo/             Logo de Mecalab: SVG, PNG (perfil, favicon, para compartir)
+                      y el original en original/.
+
+
+1) DATOS DEL TALLER
+   Completá config.js (se abre con el Bloc de notas): nombre, razón social,
+   ciudad, WhatsApp, teléfono, email, dirección, horario, etc.
    Lo que quede vacío se ve marcado en amarillo en la página.
 
-2) Formulario de cotización:
-   - Si cargás un email en config.js, los pedidos llegan a ese email
+2) FORMULARIO DE COTIZACIÓN
+   - Si hay un email cargado en config.js, los pedidos llegan a ese email
      (con los planos/fotos adjuntos) mediante el servicio gratuito FormSubmit.
      La PRIMERA vez que alguien envíe el formulario, FormSubmit manda un mail
-     de activación a esa casilla: hay que abrirlo y confirmar. Después funciona solo.
+     de activación a esa casilla: hay que abrirlo y confirmar (revisar Spam).
+     Después funciona solo.
    - Si no hay email cargado, el formulario arma el mensaje y lo abre en WhatsApp.
    - El envío por email funciona con la página publicada en internet
      (no abriendo el archivo desde la computadora).
 
-3) Para publicarla: subí la carpeta completa (index.html, config.js e img/)
-   a cualquier hosting estático. Ej.: Netlify Drop (app.netlify.com/drop),
-   arrastrando la carpeta.
+3) CAMBIAR FOTOS, SECCIONES, IMÁGENES Y TEXTOS
+   Usá la página admin.html (doble clic, se abre en Chrome o Edge).
+   La primera vez elegí esta carpeta y aceptá el permiso del navegador.
+   Tiene cuatro pestañas:
+   - Trabajos de la galería: agregar un trabajo nuevo (las fotos se achican
+     solas), cambiarle el título o la categoría, agregar, cambiar, reordenar
+     o borrar fotos, o borrar el trabajo entero. No hay trabajos bloqueados.
+   - Secciones de la página: qué trabajos van en "Destacados" y en "Antes y
+     después", los pasos del mecanizado (título, descripción y foto) y las
+     fotos de Soldaduras y de Moldes.
+   - Imágenes: logos de "Trabajamos para" (agregar, cambiar, quitar) y fotos
+     de cada material.
+   - Textos: títulos y descripciones de la página. Los que cambiaste quedan
+     marcados y se pueden restaurar al original.
+   Cada cambio se guarda en el momento. Si la página ya estaba abierta,
+   actualizala con Ctrl+F5. Antes del primer cambio de cada archivo se guarda
+   una copia (js/*.respaldo.js). Si borrás un trabajo que se usa en una
+   sección, la admin te avisa y lo quita de ahí.
+   admin.html es solo para vos: no hace falta subirlo al publicar la página.
 
-4) Las animaciones de aparición de los títulos se ven en Chrome y Edge.
+   Los datos viven en js/trabajos.js, js/contenido.js y js/textos.js
+   (los edita la admin; no hace falta tocarlos a mano).
+   Los nombres de los 6 servicios y el texto de los botones no se editan
+   desde la admin.
+
+4) PUBLICARLA
+   Subí la carpeta completa a cualquier hosting estático. Ej.: Netlify Drop
+   (app.netlify.com/drop), arrastrando la carpeta.
+
+5) Las animaciones de aparición de los títulos se ven en Chrome y Edge.
    En Safari y Firefox la página funciona igual, sin esa animación.

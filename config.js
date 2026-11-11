@@ -6,14 +6,15 @@
   Lo que quede vacío se sigue viendo marcado en amarillo en la página, como recordatorio.
 */
 window.TALLER = {
-  nombre: '',          // Ej: 'Metalúrgica Pérez'
-  ciudad: '',          // Ej: 'San Nicolás'
-  provincia: '',       // Ej: 'Buenos Aires'
+  nombre: 'Mecalab',                         // Nombre comercial: la marca que se ve grande
+  razonSocial: 'David Annessi Mecanizados',  // Como está inscripto: se ve chico, debajo de la marca y en el pie
+  ciudad: 'San Nicolás de los Arroyos',
+  provincia: 'Buenos Aires',
 
-  whatsapp: '',        // Con código de país y sin espacios ni signos. Ej: '5493364123456'
-  whatsappVisible: '', // Cómo se muestra el número (opcional). Ej: '336 412-3456'
-  telefono: '',        // Ej: '(0336) 442-1234'
-  email: '',           // Ej: 'contacto@metalurgicaperez.com.ar'
+  whatsapp: '5493364347460',             // Con código de país y sin espacios ni signos
+  whatsappVisible: '+54 9 336 434-7460', // Cómo se muestra el número
+  telefono: '+54 9 336 434-7460',
+  email: 'davidanessi@gmail.com',
   direccion: '',       // Ej: 'Av. Savio 1234, San Nicolás'
   horario: '',         // Ej: 'de 8 a 17 h'
 
