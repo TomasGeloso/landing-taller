@@ -11,10 +11,10 @@ window.TALLER = {
   ciudad: 'San Nicolás de los Arroyos',
   provincia: 'Buenos Aires',
 
-  whatsapp: '5493364347460',             // Con código de país y sin espacios ni signos
-  whatsappVisible: '+54 9 336 434-7460', // Cómo se muestra el número
-  telefono: '+54 9 336 434-7460',
-  email: 'davidanessi@gmail.com',
+  whatsapp: '5493364290046',             // Con código de país y sin espacios ni signos
+  whatsappVisible: '+54 9 336 429-0046', // Cómo se muestra el número
+  telefono: '+54 9 336 429-0046',
+  email: 'tomasgeloso@yahoo.com',   // PRUEBA: cambiar por el mail de David antes de publicar
   direccion: '',       // Ej: 'Av. Savio 1234, San Nicolás'
   horario: '',         // Ej: 'de 8 a 17 h'
 

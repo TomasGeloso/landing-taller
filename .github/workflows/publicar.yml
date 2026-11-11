@@ -32,7 +32,7 @@ jobs:
           rsync -a \
             --exclude='.git' --exclude='.github' --exclude='_site' \
             --exclude='admin.html' --exclude='LEEME.txt' --exclude='.gitignore' \
-            --exclude='*.respaldo.js' --exclude='img/logo/original' \
+            --exclude='*.respaldo.js' --exclude='img/logo/original' --exclude='*.md' \
             ./ _site/
           touch _site/.nojekyll
           test ! -e _site/admin.html   # si la admin llegara a copiarse, el trabajo falla y no se publica
