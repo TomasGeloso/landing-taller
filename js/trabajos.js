@@ -5,7 +5,7 @@
   c = categoría · t = título · p = fotos [archivo, "a" antes / "d" después / "" común]
 */
 window.TRABAJOS = [
-{"c":"equipos","t":"Retorta para horno rotativo","p":[["img/trabajos/equipos/retorta-para-horno-rotativo-6.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-4.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-1.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-2.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-3.jpg",""]],"id":"retorta-para-horno-rotativo"},
+{"c":"equipos","t":"Retorta para horno rotativo","p":[["img/trabajos/equipos/retorta-para-horno-rotativo-4.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-6.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-1.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-2.jpg",""],["img/trabajos/equipos/retorta-para-horno-rotativo-3.jpg",""]],"id":"retorta-para-horno-rotativo"},
 {"c":"equipos","t":"Horno de laboratorio","p":[["img/trabajos/equipos/horno-de-laboratorio.jpg",""]],"id":"horno-de-laboratorio"},
 {"c":"equipos","t":"Molino de laboratorio","p":[["img/trabajos/equipos/molino-de-laboratorio-1.jpg",""],["img/trabajos/equipos/molino-de-laboratorio-2.jpg",""],["img/trabajos/equipos/molino-de-laboratorio-3.jpg",""]],"id":"molino-de-laboratorio"},
 {"c":"equipos","t":"Prensa para ensayo","p":[["img/trabajos/equipos/prensa-para-ensayo-1.jpg",""],["img/trabajos/equipos/prensa-para-ensayo-2.jpg",""]],"id":"prensa-para-ensayo"},
