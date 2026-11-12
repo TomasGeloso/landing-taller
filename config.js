@@ -21,6 +21,10 @@ window.TALLER = {
   horasRespuesta: '',  // Ej: '48'  ->  "Te respondemos en 48 horas hábiles."
   zona: '',            // Ej: 'San Nicolás, Rosario y alrededores'
 
+  // Años de experiencia: la página calcula sola cuántos son y se actualizan cada año.
+  anioInicio: 1996,               // Año en que David empezó en el oficio
+  anioInicioLaboratorios: 2011,   // Año en que empezó a trabajar para laboratorios
+
   // Email que recibe los pedidos del formulario (con archivos adjuntos).
   // Si queda vacío se usa el "email" de arriba. Si no hay ningún email,
   // el formulario arma el mensaje y lo abre en WhatsApp.

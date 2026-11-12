@@ -35,6 +35,10 @@
   var waLink = function (msg) { return 'https://wa.me/' + waNum + (msg ? '?text=' + encodeURIComponent(msg) : ''); };
   if (waNum) each('[data-wa]', function (e) { e.href = waLink(e.getAttribute('data-wa')); });
   each('[data-year]', function (e) { e.textContent = new Date().getFullYear(); });
+  each('[data-anios]', function (e) { // años de experiencia: año actual menos año de inicio (config.js)
+    var desde = +C[e.getAttribute('data-anios') === 'oficio' ? 'anioInicio' : 'anioInicioLaboratorios'];
+    if (desde > 1900) e.textContent = new Date().getFullYear() - desde;
+  });
   document.title = vals.nombre + ' · Taller metalúrgico para laboratorios · ' + vals.razonSocial;
 
   /* ---------- Textos modificados desde la admin ---------- */
