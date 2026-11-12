@@ -3,10 +3,12 @@
 //
 // Necesita en Cloudflare:
 //   - Secreto  TURNSTILE_SECRET  (Settings > Variables and Secrets)
+//   - Secreto  RESEND_API_KEY    (API key de Resend, para el aviso por email)
+//   - Secreto  EMAIL_AVISO       (casilla que recibe los pedidos)
 //   - Bucket R2 conectado como   ADJUNTOS  (ver wrangler.jsonc)
 //
 // Cada pedido se guarda en R2 como  pedidos/<id>/pedido.json  y sus archivos
-// en  pedidos/<id>/<archivo>.  El aviso por email se agrega en el próximo paso.
+// en  pedidos/<id>/<archivo>.  Después se avisa por email con el link a cada archivo.
 
 const MAX_ARCHIVOS = 5;
 const MAX_BYTES_ARCHIVO = 10 * 1024 * 1024;  // 10 MB por archivo
@@ -131,14 +133,73 @@ async function cotizar(request, env) {
     return json({ ok: false, error: 'No pudimos guardar tu pedido.' }, 500);
   }
 
-  // TODO (próximo paso): enviar el aviso por email con los datos y el link a los adjuntos.
+  // El pedido ya está guardado: si el aviso falla no se le muestra error a la persona.
+  await avisarPorEmail(env, new URL(request.url).origin, id, pedido, adjuntos);
   return json({ ok: true, id });
+}
+
+const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+// Aviso por email con Resend (puente hasta tener el dominio propio con Email Routing).
+// Necesita los secretos RESEND_API_KEY y EMAIL_AVISO (casilla que recibe los pedidos).
+async function avisarPorEmail(env, origen, id, p, adjuntos) {
+  if (!env.RESEND_API_KEY || !env.EMAIL_AVISO) {
+    console.error('Falta RESEND_API_KEY o EMAIL_AVISO: el pedido', id, 'quedó guardado sin aviso');
+    return;
+  }
+  const links = adjuntos.map((a) => ({ nombre: a.nombre, url: `${origen}/api/adjunto/${id}/${a.clave.split('/').pop()}` }));
+  const filas = [
+    ['Nombre', p.nombre], ['Empresa', p.empresa], ['Email', p.email], ['WhatsApp', p.whatsapp],
+    ['Necesita', p.tipo], ['Material', p.material], ['Cantidad', p.cantidad], ['Detalle', p.detalle]
+  ].filter(([, v]) => v);
+  const text = filas.map(([k, v]) => `${k}: ${v}`).join('\n') +
+    (links.length ? '\n\nArchivos:\n' + links.map((l) => `${l.nombre}: ${l.url}`).join('\n') : '');
+  const html = '<table cellpadding="6" style="border-collapse:collapse;font-family:sans-serif">' +
+    filas.map(([k, v]) => `<tr><td style="vertical-align:top"><b>${esc(k)}</b></td><td style="white-space:pre-wrap">${esc(v)}</td></tr>`).join('') +
+    '</table>' +
+    (links.length ? '<p style="font-family:sans-serif"><b>Archivos:</b></p><ul>' +
+      links.map((l) => `<li><a href="${esc(l.url)}">${esc(l.nombre)}</a></li>`).join('') + '</ul>' : '');
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        from: 'Mecalab <onboarding@resend.dev>',
+        to: [env.EMAIL_AVISO],
+        reply_to: p.email,
+        subject: `Pedido de cotización: ${p.tipo}`,
+        text, html
+      }),
+      signal: AbortSignal.timeout(8000)
+    });
+    if (!r.ok) console.error('Resend respondió', r.status, await r.text());
+  } catch (e) {
+    console.error('No se pudo enviar el aviso por email', e);
+  }
+}
+
+// Descarga de un adjunto. El link solo se conoce por el mail: el id del pedido
+// es un UUID aleatorio imposible de adivinar. pedido.json no se sirve.
+async function adjunto(request, env, id, archivo) {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return json({ ok: false, error: 'Método no permitido' }, 405);
+  if (!/^[0-9a-f-]{36}$/.test(id) || !/^\d-[a-zA-Z0-9._-]{1,90}$/.test(archivo)) return new Response('No encontrado', { status: 404 });
+  const obj = await env.ADJUNTOS.get(`pedidos/${id}/${archivo}`);
+  if (!obj) return new Response('No encontrado', { status: 404 });
+  const h = new Headers();
+  obj.writeHttpMetadata(h);
+  h.set('content-disposition', `attachment; filename="${archivo.replace(/^\d-/, '')}"`);
+  h.set('x-content-type-options', 'nosniff');
+  h.set('x-robots-tag', 'noindex');
+  h.set('cache-control', 'private, no-store');
+  return new Response(request.method === 'HEAD' ? null : obj.body, { headers: h });
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     if (url.pathname === '/api/cotizar') return cotizar(request, env);
+    const m = url.pathname.match(/^\/api\/adjunto\/([^/]+)\/([^/]+)$/);
+    if (m) return adjunto(request, env, m[1], decodeURIComponent(m[2]));
     return env.ASSETS.fetch(request);
   }
 };
