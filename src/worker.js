@@ -39,16 +39,24 @@ function nombreSeguro(nombre) {
   return limpio || 'archivo';
 }
 
-async function verificarTurnstile(token, ip, env) {
-  if (!token) return false;
+// Verifica el token de Turnstile: éxito, acción esperada y que se haya generado
+// en este mismo sitio (hostname). Ante cualquier error responde "no verificado".
+async function verificarTurnstile(token, ip, hostname, env) {
+  if (typeof token !== 'string' || !token || token.length > 2048) return false;
   const datos = new FormData();
   datos.append('secret', env.TURNSTILE_SECRET);
   datos.append('response', token);
   if (ip) datos.append('remoteip', ip);
-  const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', { method: 'POST', body: datos });
-  if (!r.ok) return false;
-  const res = await r.json();
-  return res.success === true;
+  try {
+    const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST', body: datos, signal: AbortSignal.timeout(5000)
+    });
+    if (!r.ok) return false;
+    const res = await r.json();
+    return res.success === true && res.action === 'cotizar' && res.hostname === hostname;
+  } catch {
+    return false;
+  }
 }
 
 async function cotizar(request, env) {
@@ -76,8 +84,8 @@ async function cotizar(request, env) {
   if (texto(form.get('_honey'), 100)) return json({ ok: true });
 
   const ip = request.headers.get('CF-Connecting-IP');
-  const humano = await verificarTurnstile(form.get('cf-turnstile-response'), ip, env);
-  if (!humano) return json({ ok: false, error: 'No pudimos verificar que no sos un robot. Probá de nuevo.' }, 400);
+  const humano = await verificarTurnstile(form.get('cf-turnstile-response'), ip, new URL(request.url).hostname, env);
+  if (!humano) return json({ ok: false, error: 'No pudimos verificar que no sos un robot. Probá de nuevo.' }, 403);
 
   const pedido = {
     nombre: texto(form.get('nombre'), 120),
