@@ -15,11 +15,11 @@ window.TALLER = {
   whatsappVisible: '+54 9 336 429-0046', // Cómo se muestra el número
   telefono: '+54 9 336 429-0046',
   email: 'tomasgeloso@yahoo.com',   // PRUEBA: cambiar por el mail de David antes de publicar
-  direccion: '',       // Ej: 'Av. Savio 1234, San Nicolás'
-  horario: '',         // Ej: 'de 8 a 17 h'
+  direccion: 'Gendarmería Nacional 466, Barrio General Güemes',
+  horario: 'de 8 a 16 h',   // Se muestra después de 'Lunes a viernes'
 
-  horasRespuesta: '',  // Ej: '48'  ->  "Te respondemos en 48 horas hábiles."
-  zona: '',            // Ej: 'San Nicolás, Rosario y alrededores'
+  horasRespuesta: '48',  // ->  "Te respondemos en 48 horas hábiles."
+  zona: '',            // Sin uso por ahora: el taller entrega a domicilio pero no retira las piezas
 
   // Años de experiencia: la página calcula sola cuántos son y se actualizan cada año.
   anioInicio: 1996,               // Año en que David empezó en el oficio
