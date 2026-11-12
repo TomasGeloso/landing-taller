@@ -342,7 +342,6 @@
   });
 
   /* ---------- Formulario ---------- */
-  var formTo = trim(C.emailFormulario) || vals.email;
   var msgBox = $('form-msg');
   function msg(text, err) { msgBox.textContent = text; msgBox.className = 'form-msg show' + (err ? ' err' : ''); }
   function showSent() { form.style.display = 'none'; $('sent').style.display = 'flex'; }
@@ -357,32 +356,36 @@
       if (bad) bad.focus();
       return;
     }
-    if (formTo) {
-      // Envío por email (FormSubmit): admite archivos adjuntos
-      form.action = 'https://formsubmit.co/' + encodeURIComponent(formTo);
-      var hid = function (n, v) { var x = form.querySelector('input[name="' + n + '"]') || el('input', { type: 'hidden', name: n }); x.value = v; form.appendChild(x); };
-      hid('_subject', 'Pedido de cotización: ' + $('f-tipo').value);
-      hid('_template', 'table');
-      hid('_captcha', 'false');
-      if (/^https?:/.test(location.href)) hid('_next', location.href.split('#')[0].split('?')[0] + '?enviado=1#cotizar');
-      $('send').textContent = 'Enviando…';
-      return; // envío normal del formulario
-    }
     e.preventDefault();
-    if (waNum) {
-      var f = function (id) { return $(id).value.trim(); };
-      var t = 'Hola, quiero pedir una cotización.\n\n' +
-        'Nombre: ' + f('f-nombre') + (f('f-empresa') ? '\nEmpresa: ' + f('f-empresa') : '') +
-        '\nEmail: ' + f('f-email') + '\nWhatsApp: ' + f('f-wa') + '\nNecesito: ' + f('f-tipo') +
-        (f('f-mat') ? '\nMaterial: ' + f('f-mat') : '') + (f('f-cant') ? '\nCantidad: ' + f('f-cant') : '') +
-        (f('f-detalle') ? '\nDetalle: ' + f('f-detalle') : '') +
-        ($('f-arch').files.length ? '\n\n(Tengo planos/fotos para enviarles por acá.)' : '');
-      window.open(waLink(t), '_blank', 'noopener');
-      msg('Abrimos WhatsApp con tu pedido listo para enviar. Si adjuntaste archivos, mandalos en ese mismo chat.');
-    } else {
-      msg('El formulario todavía no está conectado: falta completar el email o el WhatsApp del taller en config.js.', true);
-    }
+    var btn = $('send');
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    var fin = function () { btn.disabled = false; btn.textContent = 'Enviar pedido'; if (window.turnstile) { try { turnstile.reset(); } catch (x) {} } };
+    var fallo = function (texto) {
+      fin();
+      msg(texto || 'No pudimos enviar tu pedido.', true);
+      if (waNum) {
+        msgBox.appendChild(document.createTextNode(' Podés escribirnos por '));
+        var a = el('a', { href: waLink(armarWhatsApp()), target: '_blank', rel: 'noopener' }, 'WhatsApp');
+        msgBox.appendChild(a); msgBox.appendChild(document.createTextNode('.'));
+      }
+    };
+    fetch('/api/cotizar', { method: 'POST', body: new FormData(form) })
+      .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok && d.ok, error: d.error }; }); })
+      .then(function (res) {
+        if (!res.ok) return fallo(res.error);
+        fin(); form.reset(); showSent();
+      })
+      .catch(function () { fallo('No pudimos conectarnos. Revisá tu conexión.'); });
   });
+  function armarWhatsApp() {
+    var f = function (id) { return $(id).value.trim(); };
+    return 'Hola, quiero pedir una cotización.\n\n' +
+      'Nombre: ' + f('f-nombre') + (f('f-empresa') ? '\nEmpresa: ' + f('f-empresa') : '') +
+      '\nEmail: ' + f('f-email') + '\nWhatsApp: ' + f('f-wa') + '\nNecesito: ' + f('f-tipo') +
+      (f('f-mat') ? '\nMaterial: ' + f('f-mat') : '') + (f('f-cant') ? '\nCantidad: ' + f('f-cant') : '') +
+      (f('f-detalle') ? '\nDetalle: ' + f('f-detalle') : '') +
+      ($('f-arch').files.length ? '\n\n(Tengo planos/fotos para enviarles por acá.)' : '');
+  }
 
   /* ---------- Galería ampliada: deslizar en el celular ---------- */
   var tx = null;
