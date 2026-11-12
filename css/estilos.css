@@ -85,6 +85,12 @@ img{max-width:100%}
 .step[aria-pressed="true"] .n{color:#A9B6BF}
 .wpanel{display:none}
 .wpanel.active{display:flex}
+/* Reparación en pantallas bajas: texto a la izquierda, comparador y miniaturas a la derecha */
+.wpanel.compact.active{display:grid;grid-template-columns:minmax(220px,300px) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:32px!important;row-gap:20px!important;align-items:start}
+.wpanel.compact > :nth-child(1){grid-column:1;grid-row:1}
+.wpanel.compact > :nth-child(2){grid-column:2;grid-row:1 / span 2;flex-wrap:nowrap!important}
+.wpanel.compact > :nth-child(3){grid-column:1;grid-row:2;justify-self:start}
+.wpanel.compact #ba-col{min-width:0!important}
 body.mode-stack .wpanel{display:flex}
 body.mode-stack #oficios-nav{display:none}
 .lb{position:fixed;inset:0;z-index:50;background:rgba(12,19,24,.95);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:20px}

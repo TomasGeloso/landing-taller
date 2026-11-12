@@ -105,6 +105,23 @@
       if (on && state.mode !== 'stack') { p.classList.remove('panel-anim'); void p.offsetWidth; p.classList.add('panel-anim'); }
     });
     if (state.mode !== 'scroll') $('prog').style.height = ((i + 1) / N * 100) + '%';
+    fitPanel();
+  }
+
+  // En el modo con scroll fijo la sección tiene la altura de la pantalla. Si el panel activo
+  // no entra (pantallas bajas), primero se compacta (Reparación pasa a dos columnas) y después
+  // se le quita aire arriba, para que nunca quede cortado abajo.
+  function fitPanel() {
+    var p = panels[state.tab];
+    panels.forEach(function (q) { q.classList.remove('compact'); });
+    stick.style.paddingTop = (state.padTop || 0) + 'px';
+    if (!p || state.mode !== 'scroll') return;
+    var prev = p.style.animation; p.style.animation = 'none';
+    var room = function () { return stick.getBoundingClientRect().bottom - 16 - p.getBoundingClientRect().bottom; };
+    if (room() < 0 && p.getAttribute('data-panel') === '1') p.classList.add('compact');
+    var over = -room();
+    if (over > 0) stick.style.paddingTop = Math.max(12, state.padTop - over) + 'px';
+    p.style.animation = prev;
   }
 
   function measure() {
@@ -118,6 +135,7 @@
     stick.style.position = scroll ? 'sticky' : 'relative';
     stick.style.top = '0';
     stick.style.height = scroll ? h + 'px' : 'auto';
+    state.padTop = padTop;
     stick.style.paddingTop = padTop + 'px';
     $('scroll-hint').style.display = scroll ? 'block' : 'none';
     $('horno').style.height = (scroll ? Math.max(280, Math.min(460, h - padTop - 330)) : 440) + 'px';
