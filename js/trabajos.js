@@ -71,5 +71,17 @@ window.TRABAJOS = [
 {"c":"taller","t":"Sierra de corte","p":[["img/trabajos/taller/sierra-de-corte-1.jpg",""],["img/trabajos/taller/sierra-de-corte-2.jpg",""]],"id":"sierra-de-corte"},
 {"c":"taller","t":"Pórtico con aparejo","p":[["img/trabajos/taller/portico-con-aparejo.jpg",""]],"id":"portico-con-aparejo"},
 {"id":"cortadora-de-precision","c":"equipos","t":"Cortadora de precisión","p":[["img/trabajos/equipos/cortadora-de-precision-1.jpg",""]]},
-{"id":"mesa-termica","c":"equipos","t":"Mesa térmica","p":[["img/trabajos/equipos/mesa-termica-1.jpg",""],["img/trabajos/equipos/mesa-termica-2.jpg",""]]}
+{"id":"mesa-termica","c":"equipos","t":"Mesa térmica","p":[["img/trabajos/equipos/mesa-termica-1.jpg",""],["img/trabajos/equipos/mesa-termica-2.jpg",""]]},
+{"id":"planta-de-dialisis","c":"equipos","t":"Planta de agua 2","p":[["img/trabajos/equipos/planta-de-dialisis-13.jpg",""],["img/trabajos/equipos/planta-de-dialisis-2.jpg",""],["img/trabajos/equipos/planta-de-dialisis-4.jpg",""],["img/trabajos/equipos/planta-de-dialisis-3.jpg",""],["img/trabajos/equipos/planta-de-dialisis-16.jpg",""],["img/trabajos/equipos/planta-de-dialisis-27.jpg",""],["img/trabajos/equipos/planta-de-dialisis-24.jpg",""]]},
+{"id":"dispositivos-en-grillon","c":"piezas","t":"Dispositivos en grillon","p":[["img/trabajos/equipos/dispositivos-en-grillon-1.jpg",""]]},
+{"id":"porta-filtros","c":"dispositivos","t":"Porta filtros","p":[["img/trabajos/dispositivos/porta-filtros-3.jpg",""],["img/trabajos/dispositivos/porta-filtros-2.jpg",""],["img/trabajos/dispositivos/porta-filtros-1.jpg",""]]},
+{"id":"soporte-para-cartuchos","c":"estructuras","t":"Soporte para cartuchos","p":[["img/trabajos/estructuras/soporte-para-cartuchos-1.jpg",""],["img/trabajos/estructuras/soporte-para-cartuchos-2.jpg",""]]},
+{"id":"celdas-de-conductividad","c":"piezas","t":"Celdas de conductividad","p":[["img/trabajos/piezas/celdas-de-conductividad-1.jpg",""]]},
+{"id":"planta-de-agua","c":"equipos","t":"Planta de agua","p":[["img/trabajos/equipos/planta-de-agua-4.jpg",""],["img/trabajos/equipos/planta-de-agua-2.jpg",""],["img/trabajos/equipos/planta-de-agua-1.jpg",""],["img/trabajos/equipos/planta-de-agua-3.jpg",""]]},
+{"id":"tapas-para-filtro-en-grillon","c":"piezas","t":"Tapas para filtro en grillon","p":[["img/trabajos/piezas/tapas-para-filtro-en-grillon-1.jpg",""]]},
+{"id":"mesadas-de-acero-inoxidable","c":"equipos","t":"Mesadas de acero inoxidable","p":[["img/trabajos/equipos/mesadas-de-acero-inoxidable-1.jpg",""],["img/trabajos/equipos/mesadas-de-acero-inoxidable-2.jpg",""],["img/trabajos/equipos/mesadas-de-acero-inoxidable-3.jpg",""]]},
+{"id":"conectores","c":"dispositivos","t":"Conectores","p":[["img/trabajos/dispositivos/conectores-1.jpg",""],["img/trabajos/dispositivos/conectores-2.jpg",""],["img/trabajos/dispositivos/conectores-3.jpg",""]]},
+{"id":"soporte-para-cartuchos-2","c":"estructuras","t":"Soporte para cartuchos 2","p":[["img/trabajos/estructuras/soporte-para-cartuchos-2-1.jpg",""],["img/trabajos/estructuras/soporte-para-cartuchos-2-2.jpg",""]]},
+{"id":"multiple-para-planta-de-agua","c":"dispositivos","t":"Múltiple para planta de agua","p":[["img/trabajos/dispositivos/multiple-para-planta-de-agua-1.jpg",""]]},
+{"id":"dispositivos-extractores","c":"dispositivos","t":"Dispositivos extractores","p":[["img/trabajos/dispositivos/dispositivos-extractores-1.jpg",""]]}
 ];
