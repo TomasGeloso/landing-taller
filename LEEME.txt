@@ -7,7 +7,8 @@ QUÉ HAY EN LA CARPETA
   index.html          La página.
   config.js           Datos del taller (nombre, contacto, horario...). Es lo único
                       que hace falta tocar para cambiar datos.
-  css/estilos.css     Diseño de la página.
+  css/estilos.css     Estilos base de la página.
+  css/ficha.css       Diseño actual: índice lateral y secciones en hojas enmarcadas.
   admin.html          Administrador: fotos, secciones, imágenes y textos de la página.
   js/main.js          Galería, visor de fotos, formulario y animaciones.
   js/trabajos.js      Lista de trabajos de la galería (la edita admin.html).

@@ -20,6 +20,7 @@
 <meta property="og:image:alt" content="Annessi, taller metalúrgico para laboratorios">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://landing-taller.tomasgeloso.workers.dev/img/logo/compartir-og-1200x630.png">
+<meta name="theme-color" content="#0E2A43">
 <link rel="icon" href="img/logo/annessi-icono.svg" type="image/svg+xml">
 <link rel="icon" href="img/logo/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="img/logo/apple-touch-icon.png">
@@ -27,36 +28,40 @@
 <script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;500;700;800&family=Chivo+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="css/estilos.css">
+<link rel="stylesheet" href="css/ficha.css">
 <script src="js/horno-3d.js" defer></script>
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body class="mode-tabs">
 <a class="skip" href="#cotizar">Ir al formulario de cotización</a>
 
-<!-- ================= HERO ================= -->
-<section id="inicio" class="bg-grid" style="position: relative; overflow: hidden; padding-bottom: clamp(80px, 9vw, 128px)">
-<svg class="hero-draw" aria-hidden="true" viewBox="0 0 900 260" fill="none">
-<path d="M10 70 H190 C222 70 228 104 252 104 H648 C672 104 678 70 710 70 H890 V190 H710 C678 190 672 156 648 156 H252 C228 156 222 190 190 190 H10 Z" stroke="#7D8C98" stroke-width="2"/>
-<path d="M0 130 H900" stroke="#9AA8B2" stroke-width="1.2" stroke-dasharray="14 6 3 6"/>
-<path d="M300 104 V30 M600 104 V30 M300 40 H600 M300 34 V46 M600 34 V46" stroke="#7D8C98" stroke-width="1.4"/>
-<path d="M252 156 V236 M648 156 V236 M252 228 H648 M252 222 V234 M648 222 V234" stroke="#9AA8B2" stroke-width="1.2"/>
-<text x="450" y="24" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="16" fill="#7D8C98">L₀</text>
-<text x="450" y="254" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" fill="#9AA8B2">Lc</text>
-</svg>
-
-<header class="wrap hdr">
+<div class="app">
+<aside class="side">
 <a class="brand" href="#inicio">
 <span class="wm"><img class="wn" src="img/logo/annessi-wordmark.svg" alt="Annessi" height="26"><span class="ws" data-cfg="razonSocial">David Annessi Mecanizados</span></span>
 </a>
-<nav aria-label="Principal">
-<a class="navlink" href="#trabajos">Servicios</a>
-<a class="navlink" href="#materiales">Materiales</a>
-<a class="navlink" href="#galeria">Galería</a>
+<nav class="idx" aria-label="Secciones de la página">
+<a href="#inicio" data-spy="inicio"><i>01</i>Inicio</a>
+<a href="#trabajos" data-spy="trabajos"><i>02</i>Servicios</a>
+<a href="#proceso" data-spy="proceso"><i>03</i>Cómo trabajamos</a>
+<a href="#materiales" data-spy="materiales"><i>04</i>Materiales</a>
+<a href="#galeria" data-spy="galeria"><i>05</i>Trabajos</a>
+<a href="#cotizar" data-spy="cotizar"><i>06</i>Cotización</a>
 </nav>
-<a class="btn btn-t cta" href="#cotizar"><span class="hide-m">Pedir cotización</span><span class="show-m">Cotizar</span></a>
-</header>
+<a class="btn btn-t sidecta" href="#cotizar">Pedir cotización</a>
+<div class="contacto">
+<a class="flink" href="https://wa.me/" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener">WhatsApp <span class="tbd" data-cfg="whatsappVisible">[NÚMERO]</span></a>
+<a class="flink" data-cfg-href="tel" href="#">Tel. <span class="tbd" data-cfg="telefono">[TELÉFONO]</span></a>
+<a class="flink" data-cfg-href="mail" href="#"><span class="tbd" data-cfg="email">[EMAIL]</span></a>
+<span><span class="tbd" data-cfg="direccion">[DIRECCIÓN]</span></span>
+<span>Lunes a viernes, <span class="tbd" data-cfg="horario">[HORARIO]</span></span>
+</div>
+</aside>
+<main class="main" id="contenido">
+<section id="inicio" class="hero-a">
+<div class="ha-title">
 
 <div class="wrap" style="position: relative; padding-top: clamp(56px, 8vw, 120px); display: flex; flex-direction: column; gap: 30px">
 <span class="kick">Taller metalúrgico para laboratorios<span data-cfg-wrap="ciudad"> · <span class="tbd" data-cfg="ciudad">[CIUDAD]</span></span></span>
@@ -69,7 +74,8 @@
 </div>
 </div>
 
-<div class="wrap" style="position: relative; margin-top: clamp(80px, 9vw, 136px); display: flex; flex-direction: column; gap: 20px">
+</div>
+<div class="ha-spec"><div class="wrap" style="position: relative; margin-top: clamp(80px, 9vw, 136px); display: flex; flex-direction: column; gap: 20px">
 <div style="background: #fff; border-top: 3px solid var(--t); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr))">
 <div style="padding: clamp(28px, 3.4vw, 48px); display: flex; align-items: center; gap: 24px">
 <span data-anios="oficio" class="disp" style="font-size: clamp(64px, 7vw, 96px); line-height: .9; color: var(--t)">30</span>
@@ -89,9 +95,15 @@
 </div>
 </div>
 </div>
+<svg class="hero-draw" aria-hidden="true" viewBox="0 0 900 260" fill="none">
+<path d="M10 70 H190 C222 70 228 104 252 104 H648 C672 104 678 70 710 70 H890 V190 H710 C678 190 672 156 648 156 H252 C228 156 222 190 190 190 H10 Z" stroke="#7D8C98" stroke-width="2"/>
+<path d="M0 130 H900" stroke="#9AA8B2" stroke-width="1.2" stroke-dasharray="14 6 3 6"/>
+<path d="M300 104 V30 M600 104 V30 M300 40 H600 M300 34 V46 M600 34 V46" stroke="#7D8C98" stroke-width="1.4"/>
+<path d="M252 156 V236 M648 156 V236 M252 228 H648 M252 222 V234 M648 222 V234" stroke="#9AA8B2" stroke-width="1.2"/>
+<text x="450" y="24" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="16" fill="#7D8C98">L₀</text>
+<text x="450" y="254" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" fill="#9AA8B2">Lc</text>
+</svg></div>
 </section>
-
-<!-- ================= OFICIOS ================= -->
 <section id="trabajos" style="background: var(--ice2); padding-top: clamp(72px, 8vw, 112px); padding-bottom: clamp(32px, 4vw, 56px)">
 <div class="wrap reveal shead" style="margin-bottom: clamp(24px, 3vw, 40px)">
 <div>
@@ -241,8 +253,6 @@
 </div>
 </div>
 </section>
-
-<!-- ================= CÓMO TRABAJAMOS ================= -->
 <section id="proceso" class="band bg-grid">
 <div class="wrap">
 <div class="shead reveal">
@@ -263,8 +273,6 @@
 </ol>
 </div>
 </section>
-
-<!-- ================= MATERIALES ================= -->
 <section id="materiales" class="sec" style="overflow-x: clip; background: #fff">
 <div class="wrap" style="display: flex; flex-direction: column; gap: clamp(48px, 6vw, 80px)">
 <div class="reveal shead">
@@ -342,8 +350,6 @@
 </div>
 </div>
 </section>
-
-<!-- ================= GALERÍA ================= -->
 <section id="galeria" class="sec" style="background: var(--ice)">
 <div class="wrap" style="display: flex; flex-direction: column; gap: clamp(36px, 4.4vw, 56px)">
 <div class="reveal shead">
@@ -359,8 +365,6 @@
 <button id="more" class="btn" type="button" style="align-self: center; min-height: 52px; padding: 0 28px; font: inherit; font-weight: 600; cursor: pointer; border: 1.5px solid #16222B; background: transparent; color: #16222B; display: none"></button>
 </div>
 </section>
-
-<!-- ================= COTIZACIÓN ================= -->
 <section id="cotizar" class="sec" style="background: var(--ice2)">
 <div class="wrap" style="display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 96px); align-items: flex-start">
 <div class="reveal" style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 26px">
@@ -420,8 +424,6 @@ Preferís WhatsApp</a>
 </form>
 </div>
 </section>
-
-<!-- ================= FOOTER ================= -->
 <footer style="background: var(--ink); color: #C5D0D7; font-size: 15px">
 <div class="wrap" style="padding-top: clamp(64px, 7vw, 96px); padding-bottom: 40px; display: flex; flex-direction: column; gap: 48px">
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 40px">
@@ -462,6 +464,8 @@ Preferís WhatsApp</a>
 </div>
 </div>
 </footer>
+</main>
+</div>
 
 <!-- Lightbox -->
 <div id="lb" class="lb" role="dialog" aria-modal="true" aria-labelledby="lb-title">
@@ -493,5 +497,25 @@ Preferís WhatsApp</a>
 <script src="js/contenido.js"></script>
 <script src="js/textos.js"></script>
 <script src="js/main.js"></script>
+
+
+<script>
+// Índice lateral: marca la sección que se está viendo
+(function () {
+  var links = [].slice.call(document.querySelectorAll('[data-spy]'));
+  if (!links.length || !('IntersectionObserver' in window)) return;
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('data-spy')] = a; });
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.remove('on'); a.removeAttribute('aria-current'); });
+      var a = map[e.target.id];
+      if (a) { a.classList.add('on'); a.setAttribute('aria-current', 'true'); if (a.scrollIntoView && window.innerWidth <= 1100) { var box = a.parentNode; box.scrollLeft = a.offsetLeft - 20; } }
+    });
+  }, { rootMargin: '-35% 0px -55% 0px' });
+  Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) obs.observe(s); });
+})();
+</script>
 </body>
 </html>
