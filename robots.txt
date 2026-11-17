@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://landing-taller.tomasgeloso.workers.dev/sitemap.xml
+Sitemap: https://annessi.ar/sitemap.xml
