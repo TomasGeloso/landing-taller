@@ -21,7 +21,7 @@
   var trim = function (v) { return (v == null ? '' : String(v)).trim(); };
   var waNum = trim(C.whatsapp).replace(/\D/g, '');
   var vals = {
-    nombre: trim(C.nombre) || 'Mecalab', razonSocial: trim(C.razonSocial) || 'David Annessi Mecanizados', ciudad: trim(C.ciudad), telefono: trim(C.telefono), email: trim(C.email),
+    nombre: trim(C.nombre) || 'Annessi', razonSocial: trim(C.razonSocial) || 'David Annessi Mecanizados', ciudad: trim(C.ciudad), telefono: trim(C.telefono), email: trim(C.email),
     direccion: trim(C.direccion), horario: trim(C.horario), horasRespuesta: trim(C.horasRespuesta), zona: trim(C.zona),
     ciudadProvincia: [trim(C.ciudad), trim(C.provincia)].filter(Boolean).join(', '),
     whatsappVisible: trim(C.whatsappVisible) || trim(C.telefono) || (waNum ? '+' + waNum : '')

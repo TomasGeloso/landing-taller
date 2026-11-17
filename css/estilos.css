@@ -109,10 +109,9 @@ body.mode-stack #oficios-nav{display:none}
 .skip:focus{top:12px}
 /* ----- marca ----- */
 .wm{display:flex;flex-direction:column;line-height:1}
-.wm .wn{font-family:'Archivo',sans-serif;font-weight:800;font-size:25px;letter-spacing:-0.03em}
-.wm .wn b{font-weight:800;color:var(--t)}
+.wm .wn{display:block;align-self:flex-start;height:26px;width:auto}
 .wm .ws{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:5px}
-.wm.inv .wn{color:#fff}.wm.inv .wn b{color:#8EC1E6}.wm.inv .ws{color:#A9B6BF}
+.wm.inv .ws{color:#A9B6BF}
 /* ----- cabecera ----- */
 .hdr{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:16px 30px;padding-top:28px;padding-bottom:28px}
 .hdr .brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
@@ -221,3 +220,18 @@ body.mode-stack .wpanel{scroll-margin-top:84px}
 .form-msg.err{border-left-color:#B3261E;background:#FBEDEC}
 .sent{display:none;flex-direction:column;gap:14px;align-items:flex-start}
 form.flash{box-shadow:0 0 0 3px rgba(30,91,140,.35);transition:box-shadow .6s ease}
+
+/* ----- fondo: cuadrícula de plano técnico, muy tenue ----- */
+.bg-grid{position:relative;isolation:isolate}
+.bg-grid::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(rgba(30,91,140,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(30,91,140,.08) 1px,transparent 1px);
+  background-size:48px 48px;background-position:-1px -1px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 80% at 82% 12%,#000 0%,transparent 72%);
+  mask-image:radial-gradient(ellipse 75% 80% at 82% 12%,#000 0%,transparent 72%)}
+.bg-grid::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse 60% 55% at 88% 0%,rgba(30,91,140,.10),transparent 70%)}
+.band.bg-grid::before{background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);
+  -webkit-mask-image:radial-gradient(ellipse 70% 90% at 90% 0%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 90% at 90% 0%,#000 0%,transparent 75%)}
+.band.bg-grid::after{background:radial-gradient(ellipse 55% 70% at 95% 0%,rgba(142,193,230,.10),transparent 70%)}
+.hero-draw{position:absolute;right:-140px;top:585px;width:min(760px,70vw);opacity:.4;pointer-events:none}
+@media (max-width:900px){.hero-draw{display:none}}

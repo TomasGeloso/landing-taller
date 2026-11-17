@@ -1,4 +1,4 @@
-// Worker de Mecalab.
+// Worker de Annessi.
 // Sirve el sitio estático (env.ASSETS) y atiende /api/cotizar.
 //
 // Necesita en Cloudflare:
@@ -164,7 +164,7 @@ async function avisarPorEmail(env, origen, id, p, adjuntos) {
       method: 'POST',
       headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
       body: JSON.stringify({
-        from: 'Mecalab <onboarding@resend.dev>',
+        from: 'Annessi <onboarding@resend.dev>',
         to: [env.EMAIL_AVISO],
         reply_to: p.email,
         subject: `Pedido de cotización: ${p.tipo}`,

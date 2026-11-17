@@ -6,7 +6,7 @@
   Lo que quede vacío se sigue viendo marcado en amarillo en la página, como recordatorio.
 */
 window.TALLER = {
-  nombre: 'Mecalab',                         // Nombre comercial: la marca que se ve grande
+  nombre: 'Annessi',                         // Nombre comercial: la marca que se ve grande
   razonSocial: 'David Annessi Mecanizados',  // Como está inscripto: se ve chico, debajo de la marca y en el pie
   ciudad: 'San Nicolás de los Arroyos',
   provincia: 'Buenos Aires',

@@ -1,4 +1,4 @@
-MECALAB - LANDING DEL TALLER
+ANNESSI - LANDING DEL TALLER
 David Annessi Mecanizados
 ===========================
 
@@ -24,7 +24,7 @@ QUÉ HAY EN LA CARPETA
                       y mismo nombre). La galería la usa para cargar rápido.
     materiales/       Fotos de la sección "Materiales que trabajamos".
     clientes/         Logos de "Trabajamos para".
-    logo/             Logo de Mecalab: SVG, PNG (perfil, favicon, para compartir)
+    logo/             Logo de Annessi: SVG, PNG (perfil, favicon, para compartir)
                       y el original en original/.
 
 

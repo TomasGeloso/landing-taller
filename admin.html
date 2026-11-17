@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<link rel="icon" href="img/logo/mecalab-icono.svg" type="image/svg+xml">
-<title>Mecalab · Administrador de la página</title>
+<link rel="icon" href="img/logo/annessi-icono.svg" type="image/svg+xml">
+<title>Annessi · Administrador de la página</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -23,8 +23,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .top .wrap{display:flex;align-items:center;gap:10px 24px;flex-wrap:wrap;min-height:68px;padding-top:10px;padding-bottom:10px}
 .brand{display:flex;align-items:center;gap:12px;margin-right:auto}
 .wm{display:flex;flex-direction:column;line-height:1}
-.wn{font-family:'Archivo',sans-serif;font-weight:800;font-size:22px;letter-spacing:-.03em}
-.wn b{color:var(--t)}
+.wn{display:block;align-self:flex-start;height:22px;width:auto}
 .ws{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .folder{font-size:13px;color:var(--muted);display:none;align-items:center;gap:8px}
 .folder .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
@@ -166,8 +165,7 @@ dialog::backdrop{background:rgba(12,19,24,.72)}
 <header class="top">
   <div class="wrap">
     <div class="brand">
-      <svg width="38" height="33" viewBox="243 269 538 466" aria-hidden="true"><path fill="#1E5B8C" d="M336.26 735 A268.5 268.5 0 0 1 470 266.81 V312.48 A223.5 223.5 0 0 0 418.49 735 Z M687.74 735 A268.5 268.5 0 0 0 554 266.81 V312.48 A223.5 223.5 0 0 1 605.51 735 Z"/><path fill="#1E5B8C" d="M391 361 L512 478 L633 361 V735 H587 V484 L512 556 L437 484 V735 H391 Z"/></svg>
-      <span class="wm"><span class="wn">Meca<b>lab</b></span><span class="ws">Administrador de la página</span></span>
+      <span class="wm"><img class="wn" src="img/logo/annessi-wordmark.svg" alt="Annessi" height="22"><span class="ws">Administrador de la página</span></span>
     </div>
     <span class="folder" id="folder"><i class="dot"></i><span id="folder-name"></span></span>
     <a class="btn sm" id="ver" href="index.html" target="_blank" rel="noopener" style="display:none">Ver la página ↗</a>

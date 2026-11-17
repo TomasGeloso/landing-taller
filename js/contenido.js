@@ -71,9 +71,9 @@ window.CONTENIDO = {
     },
     {
       "c": "",
-      "n": "Red Dialmed",
-      "img": "img/clientes/red-dialmed.png",
-      "h": 62
+      "n": "Diaverum",
+      "img": "img/clientes/Diaverum_logo.jpeg",
+      "h": 36
     }
   ]
 };
