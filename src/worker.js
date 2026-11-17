@@ -5,6 +5,8 @@
 //   - Secreto  TURNSTILE_SECRET  (Settings > Variables and Secrets)
 //   - Secreto  RESEND_API_KEY    (API key de Resend, para el aviso por email)
 //   - Secreto  EMAIL_AVISO       (casilla que recibe los pedidos)
+//   - Variable EMAIL_REMITENTE   (opcional) quién figura como remitente del aviso, ej.:  Annessi <avisos@tudominio.ar>
+//                                Hasta verificar el dominio en Resend se usa el remitente de prueba de Resend.
 //   - Bucket R2 conectado como   ADJUNTOS  (ver wrangler.jsonc)
 //
 // Cada pedido se guarda en R2 como  pedidos/<id>/pedido.json  y sus archivos
@@ -164,7 +166,7 @@ async function avisarPorEmail(env, origen, id, p, adjuntos) {
       method: 'POST',
       headers: { authorization: `Bearer ${env.RESEND_API_KEY}`, 'content-type': 'application/json' },
       body: JSON.stringify({
-        from: 'Annessi <onboarding@resend.dev>',
+        from: env.EMAIL_REMITENTE || 'Annessi <onboarding@resend.dev>',
         to: [env.EMAIL_AVISO],
         reply_to: p.email,
         subject: `Pedido de cotización: ${p.tipo}`,
