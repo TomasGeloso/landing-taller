@@ -3,7 +3,8 @@
 //
 // Necesita en Cloudflare:
 //   - Secreto  TURNSTILE_SECRET  (Settings > Variables and Secrets)
-//   - Secreto  RESEND_API_KEY    (API key de Resend, para el aviso por email)
+//   - Binding  AVISOS            (send_email de Cloudflare: manda el aviso por email, sin servicios externos)
+//   - Secreto  RESEND_API_KEY    (opcional: solo si se usa Resend en lugar del binding AVISOS)
 //   - Secreto  EMAIL_AVISO       (casilla que recibe los pedidos)
 //   - Variable EMAIL_REMITENTE   (opcional) quién figura como remitente del aviso, ej.:  Annessi <avisos@tudominio.ar>
 //                                Hasta verificar el dominio en Resend se usa el remitente de prueba de Resend.
@@ -142,11 +143,50 @@ async function cotizar(request, env) {
 
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-// Aviso por email con Resend (puente hasta tener el dominio propio con Email Routing).
+
+// ---- Envío por Cloudflare (binding send_email "AVISOS") ----
+const b64 = (s) => { let bin = ''; new TextEncoder().encode(s).forEach((b) => { bin += String.fromCharCode(b); }); return btoa(bin); };
+const b64Lineas = (s) => b64(s).replace(/.{1,76}/g, (x) => x + '\r\n').trim();
+const limpio = (s) => String(s).replace(/[\r\n]+/g, ' ').trim();
+// Encabezado con acentos: palabras codificadas de a 15 caracteres (el límite es 75 por palabra)
+function encabezadoUtf8(txt) {
+  const t = limpio(txt);
+  if (/^[\x20-\x7e]*$/.test(t)) return t;
+  const letras = [...t], trozos = [];
+  for (let i = 0; i < letras.length; i += 15) trozos.push('=?UTF-8?B?' + b64(letras.slice(i, i + 15).join('')) + '?=');
+  return trozos.join('\r\n ');
+}
+function armarMime({ de, deNombre, para, responderA, asunto, text, html, dominio }) {
+  const limite = 'annessi-' + crypto.randomUUID();
+  const cab = [
+    'From: ' + encabezadoUtf8(deNombre) + ' <' + de + '>',
+    'To: ' + para,
+    responderA ? 'Reply-To: ' + limpio(responderA) : null,
+    'Subject: ' + encabezadoUtf8(asunto),
+    'Date: ' + new Date().toUTCString(),
+    'Message-ID: <' + crypto.randomUUID() + '@' + dominio + '>',
+    'MIME-Version: 1.0',
+    'Content-Type: multipart/alternative; boundary="' + limite + '"'
+  ].filter(Boolean).join('\r\n');
+  const parte = (tipo, cuerpo) => '--' + limite + '\r\nContent-Type: ' + tipo + '; charset=UTF-8\r\nContent-Transfer-Encoding: base64\r\n\r\n' + b64Lineas(cuerpo) + '\r\n';
+  return cab + '\r\n\r\n' + parte('text/plain', text) + parte('text/html', html) + '--' + limite + '--\r\n';
+}
+async function enviarPorCloudflare(env, responderA, asunto, text, html) {
+  // EMAIL_REMITENTE tiene la forma:  Annessi <avisos@annessi.ar>
+  const m = String(env.EMAIL_REMITENTE || '').match(/^\s*(.*?)\s*<([^>]+)>\s*$/);
+  const deNombre = m ? (m[1] || 'Annessi') : 'Annessi';
+  const de = m ? m[2] : 'avisos@annessi.ar';
+  const para = limpio(env.EMAIL_AVISO);
+  const raw = armarMime({ de, deNombre, para, responderA, asunto, text, html, dominio: de.split('@')[1] });
+  const { EmailMessage } = await import('cloudflare:email');  // solo se carga si se usa
+  await env.AVISOS.send(new EmailMessage(de, para, raw));
+}
+
+// Aviso por email: con Cloudflare (binding AVISOS) o, si no está, con Resend (puente hasta tener el dominio propio con Email Routing).
 // Necesita los secretos RESEND_API_KEY y EMAIL_AVISO (casilla que recibe los pedidos).
 async function avisarPorEmail(env, origen, id, p, adjuntos) {
-  if (!env.RESEND_API_KEY || !env.EMAIL_AVISO) {
-    console.error('Falta RESEND_API_KEY o EMAIL_AVISO: el pedido', id, 'quedó guardado sin aviso');
+  if (!env.EMAIL_AVISO || (!env.AVISOS && !env.RESEND_API_KEY)) {
+    console.error('Falta EMAIL_AVISO o el envío (binding AVISOS / RESEND_API_KEY): el pedido', id, 'quedó guardado sin aviso');
     return;
   }
   const links = adjuntos.map((a) => ({ nombre: a.nombre, url: `${origen}/api/adjunto/${id}/${a.clave.split('/').pop()}` }));
@@ -161,6 +201,11 @@ async function avisarPorEmail(env, origen, id, p, adjuntos) {
     '</table>' +
     (links.length ? '<p style="font-family:sans-serif"><b>Archivos:</b></p><ul>' +
       links.map((l) => `<li><a href="${esc(l.url)}">${esc(l.nombre)}</a></li>`).join('') + '</ul>' : '');
+  if (env.AVISOS) {
+    try { await enviarPorCloudflare(env, p.email, `Pedido de cotización: ${p.tipo}`, text, html); }
+    catch (e) { console.error('No se pudo enviar el aviso por Cloudflare', e); }
+    return;
+  }
   try {
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
