@@ -13,3 +13,7 @@ wrangler.jsonc
 node_modules
 src
 documentos
+originales
+herramientas
+variante-*.html
+css/variante-*.css

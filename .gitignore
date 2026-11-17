@@ -5,3 +5,11 @@ js/*.respaldo.js
 .wrangler/
 datos_david.txt
 documentos/
+
+# Fotos originales sin marca de agua (solo en esta computadora)
+originales/
+# Herramientas locales
+herramientas/node_modules/
+node_modules/
+variante-*.html
+css/variante-*.css

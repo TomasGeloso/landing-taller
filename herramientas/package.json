@@ -1,0 +1,7 @@
+{
+  "name": "herramientas-annessi",
+  "private": true,
+  "description": "Marca de agua para las fotos del sitio",
+  "scripts": { "marcar": "node marcar-fotos.js" },
+  "devDependencies": { "sharp": "^0.33.5" }
+}
