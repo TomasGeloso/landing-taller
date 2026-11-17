@@ -244,6 +244,8 @@ async function adjunto(request, env, id, archivo) {
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // www.annessi.ar redirige al dominio principal (una sola dirección para Google y para compartir)
+    if (url.hostname === 'www.annessi.ar') return Response.redirect('https://annessi.ar' + url.pathname + url.search, 301);
     if (url.pathname === '/api/cotizar') return cotizar(request, env);
     const m = url.pathname.match(/^\/api\/adjunto\/([^/]+)\/([^/]+)$/);
     if (m) return adjunto(request, env, m[1], decodeURIComponent(m[2]));
