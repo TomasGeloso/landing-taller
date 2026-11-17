@@ -11,6 +11,8 @@
   "r2_buckets": [
     { "binding": "ADJUNTOS", "bucket_name": "mecalab-adjuntos" }
   ],
+  "send_email": [{ "name": "AVISOS", "destination_address": "annessi.mecanizados@gmail.com" }],
+  "vars": { "EMAIL_REMITENTE": "Annessi <avisos@annessi.ar>" },
   "ratelimits": [
     { "name": "LIMITADOR", "namespace_id": "1001", "simple": { "limit": 3, "period": 60 } }
   ]

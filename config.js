@@ -14,7 +14,7 @@ window.TALLER = {
   whatsapp: '5493364290046',             // Con código de país y sin espacios ni signos
   whatsappVisible: '+54 9 336 429-0046', // Cómo se muestra el número
   telefono: '+54 9 336 429-0046',
-  email: 'tomasgeloso@yahoo.com',   // PRUEBA: cambiar por el mail de David antes de publicar
+  email: 'contacto@annessi.ar',
   direccion: 'Gendarmería Nacional 466, Barrio General Güemes',
   horario: 'de 8 a 16 h',   // Se muestra después de 'Lunes a viernes'
 
