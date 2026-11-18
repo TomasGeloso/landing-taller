@@ -17,14 +17,6 @@ const MAX_ARCHIVOS = 5;
 const MAX_BYTES_ARCHIVO = 10 * 1024 * 1024;  // 10 MB por archivo
 const MAX_BYTES_TOTAL = 25 * 1024 * 1024;    // 25 MB por pedido
 const EXT_PERMITIDAS = ['pdf', 'dwg', 'dxf', 'step', 'stp', 'iges', 'igs', 'jpg', 'jpeg', 'png', 'heic'];
-const TIPOS = [
-  'Construcción de un equipo',
-  'Reparación o restauración de un equipo',
-  'Corte o mecanizado',
-  'Soldadura',
-  'Probetas de ensayo',
-  'Molde o matriz'
-];
 
 function json(obj, status = 200) {
   return new Response(JSON.stringify(obj), {
@@ -97,14 +89,20 @@ async function cotizar(request, env) {
     empresa: texto(form.get('empresa'), 120),
     email: texto(form.get('email'), 150),
     whatsapp: texto(form.get('whatsapp'), 40),
-    tipo: texto(form.get('tipo'), 80),
+    tipo: texto(form.get('tipo'), 120),
     material: texto(form.get('material'), 120),
     cantidad: texto(form.get('cantidad'), 80),
     detalle: texto(form.get('detalle'), 4000)
   };
-  if (!pedido.nombre || !pedido.whatsapp || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pedido.email) || !TIPOS.includes(pedido.tipo)) {
-    return json({ ok: false, error: 'Revisá los campos obligatorios.' }, 400);
-  }
+  // Requisitos mínimos: nombre, una forma de contacto (email o WhatsApp) y algo que diga qué necesita.
+  const mailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pedido.email);
+  const telOk = pedido.whatsapp.replace(/\D/g, '').length >= 6;
+  const hayArchivos = form.getAll('archivos').some((f) => typeof f !== 'string' && f.size > 0);
+  if (!pedido.nombre) return json({ ok: false, error: 'Escribí tu nombre.' }, 400);
+  if (!mailOk && !telOk) return json({ ok: false, error: 'Dejanos un email o un WhatsApp válido para poder responderte.' }, 400);
+  if (pedido.email && !mailOk) return json({ ok: false, error: 'Revisá el email.' }, 400);
+  if (pedido.whatsapp && !telOk) return json({ ok: false, error: 'Revisá el número de WhatsApp o teléfono.' }, 400);
+  if (!pedido.tipo && !pedido.detalle && !hayArchivos) return json({ ok: false, error: 'Contanos qué necesitás o adjuntá un archivo.' }, 400);
 
   const archivos = form.getAll('archivos').filter((f) => typeof f !== 'string' && f.size > 0);
   if (archivos.length > MAX_ARCHIVOS) return json({ ok: false, error: `Podés adjuntar hasta ${MAX_ARCHIVOS} archivos.` }, 400);
@@ -202,7 +200,7 @@ async function avisarPorEmail(env, origen, id, p, adjuntos) {
     (links.length ? '<p style="font-family:sans-serif"><b>Archivos:</b></p><ul>' +
       links.map((l) => `<li><a href="${esc(l.url)}">${esc(l.nombre)}</a></li>`).join('') + '</ul>' : '');
   if (env.AVISOS) {
-    try { await enviarPorCloudflare(env, p.email, `Pedido de cotización: ${p.tipo}`, text, html); }
+    try { await enviarPorCloudflare(env, p.email, `Pedido de cotización: ${p.tipo || p.nombre}`, text, html); }
     catch (e) { console.error('No se pudo enviar el aviso por Cloudflare', e); }
     return;
   }
@@ -213,8 +211,8 @@ async function avisarPorEmail(env, origen, id, p, adjuntos) {
       body: JSON.stringify({
         from: env.EMAIL_REMITENTE || 'Annessi <onboarding@resend.dev>',
         to: [env.EMAIL_AVISO],
-        reply_to: p.email,
-        subject: `Pedido de cotización: ${p.tipo}`,
+        reply_to: p.email || undefined,
+        subject: `Pedido de cotización: ${p.tipo || p.nombre}`,
         text, html
       }),
       signal: AbortSignal.timeout(8000)

@@ -34,14 +34,13 @@ QUÉ HAY EN LA CARPETA
    Lo que quede vacío se ve marcado en amarillo en la página.
 
 2) FORMULARIO DE COTIZACIÓN
-   - Si hay un email cargado en config.js, los pedidos llegan a ese email
-     (con los planos/fotos adjuntos) mediante el servicio gratuito FormSubmit.
-     La PRIMERA vez que alguien envíe el formulario, FormSubmit manda un mail
-     de activación a esa casilla: hay que abrirlo y confirmar (revisar Spam).
-     Después funciona solo.
-   - Si no hay email cargado, el formulario arma el mensaje y lo abre en WhatsApp.
-   - El envío por email funciona con la página publicada en internet
-     (no abriendo el archivo desde la computadora).
+   - Cada pedido se guarda en el servidor (Cloudflare R2, con sus planos y fotos)
+     y se avisa por email a la casilla configurada en Cloudflare (EMAIL_AVISO),
+     con el link para descargar cada archivo. Ver src/worker.js.
+   - Para mandar el pedido alcanza con el nombre, un email o un WhatsApp, y
+     contar qué se necesita (o adjuntar un archivo).
+   - Si el envío falla, el formulario ofrece escribir por WhatsApp con el mensaje armado.
+   - Solo funciona con la página publicada (no abriendo el archivo desde la computadora).
 
 3) CAMBIAR FOTOS, SECCIONES, IMÁGENES Y TEXTOS
    Usá la página admin.html (doble clic, se abre en Chrome o Edge).

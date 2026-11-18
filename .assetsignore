@@ -17,3 +17,6 @@ originales
 herramientas
 variante-*.html
 css/variante-*.css
+*.zip
+datos_david.txt
+.wrangler

@@ -11,9 +11,9 @@ window.TALLER = {
   ciudad: 'San Nicolás de los Arroyos',
   provincia: 'Buenos Aires',
 
-  whatsapp: '5493364290046',             // Con código de país y sin espacios ni signos
-  whatsappVisible: '+54 9 336 429-0046', // Cómo se muestra el número
-  telefono: '+54 9 336 429-0046',
+  whatsapp: '5493364347460',             // Con código de país y sin espacios ni signos
+  whatsappVisible: '+54 336 434-7460', // Cómo se muestra el número
+  telefono: '+54 336 434-7460',
   email: 'contacto@annessi.ar',
   direccion: 'Gendarmería Nacional 466, Barrio General Güemes',
   horario: 'de 8 a 16 h',   // Se muestra después de 'Lunes a viernes'

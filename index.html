@@ -23,7 +23,8 @@
 <link rel="icon" href="img/logo/annessi-icono.svg" type="image/svg+xml">
 <link rel="icon" href="img/logo/favicon-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="img/logo/apple-touch-icon.png">
-<script>if(!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches))document.documentElement.className+=' js';</script>
+<script>if(location.hostname==='www.annessi.ar')location.replace('https://annessi.ar'+location.pathname+location.search+location.hash);document.documentElement.className+=' con-js'+(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches?'':' js');</script>
+<noscript><style>#horno,[data-t="trabajos-5"],#see-eq,#ba-col,#res-thumbs,.mosaic,#filters,#quote{display:none!important}</style></noscript>
 <script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,16 +37,9 @@
 <a class="skip" href="#cotizar">Ir al formulario de cotización</a>
 
 <!-- ================= HERO ================= -->
-<section id="inicio" class="bg-grid" style="position: relative; overflow: hidden; padding-bottom: clamp(80px, 9vw, 128px)">
-<svg class="hero-draw" aria-hidden="true" viewBox="0 0 900 260" fill="none">
-<path d="M10 70 H190 C222 70 228 104 252 104 H648 C672 104 678 70 710 70 H890 V190 H710 C678 190 672 156 648 156 H252 C228 156 222 190 190 190 H10 Z" stroke="#7D8C98" stroke-width="2"/>
-<path d="M0 130 H900" stroke="#9AA8B2" stroke-width="1.2" stroke-dasharray="14 6 3 6"/>
-<path d="M300 104 V30 M600 104 V30 M300 40 H600 M300 34 V46 M600 34 V46" stroke="#7D8C98" stroke-width="1.4"/>
-<path d="M252 156 V236 M648 156 V236 M252 228 H648 M252 222 V234 M648 222 V234" stroke="#9AA8B2" stroke-width="1.2"/>
-<text x="450" y="24" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="16" fill="#7D8C98">L₀</text>
-<text x="450" y="254" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" fill="#9AA8B2">Lc</text>
-</svg>
+<section id="inicio" class="bg-grid" style="position: relative; overflow: hidden; padding-bottom: clamp(56px, 7vw, 112px)">
 
+<div class="hero-first">
 <header class="wrap hdr">
 <a class="brand" href="#inicio">
 <span class="wm"><img class="wn" src="img/logo/annessi-wordmark.svg" alt="Annessi" height="26"><span class="ws" data-cfg="razonSocial">David Annessi Mecanizados</span></span>
@@ -58,9 +52,17 @@
 <a class="btn btn-t cta" href="#cotizar"><span class="hide-m">Pedir cotización</span><span class="show-m">Cotizar</span></a>
 </header>
 
-<div class="wrap" style="position: relative; padding-top: clamp(56px, 8vw, 120px); display: flex; flex-direction: column; gap: 30px">
-<span class="kick">Taller metalúrgico para laboratorios<span data-cfg-wrap="ciudad"> · <span class="tbd" data-cfg="ciudad">[CIUDAD]</span></span></span>
-<h1 data-t="inicio-1" class="disp" style="margin: 0; font-size: clamp(42px, 6.2vw, 88px); line-height: 1; max-width: 1000px">Construimos, reparamos y restauramos equipos de laboratorio.</h1>
+<div class="wrap hero-main">
+<svg class="hero-draw" aria-hidden="true" viewBox="0 0 900 260" fill="none">
+<path d="M10 70 H190 C222 70 228 104 252 104 H648 C672 104 678 70 710 70 H890 V190 H710 C678 190 672 156 648 156 H252 C228 156 222 190 190 190 H10 Z" stroke="#7D8C98" stroke-width="2"/>
+<path d="M0 130 H900" stroke="#9AA8B2" stroke-width="1.2" stroke-dasharray="14 6 3 6"/>
+<path d="M300 104 V30 M600 104 V30 M300 40 H600 M300 34 V46 M600 34 V46" stroke="#7D8C98" stroke-width="1.4"/>
+<path d="M252 156 V236 M648 156 V236 M252 228 H648 M252 222 V234 M648 222 V234" stroke="#9AA8B2" stroke-width="1.2"/>
+<text x="450" y="24" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="16" fill="#7D8C98">L₀</text>
+<text x="450" y="254" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="15" fill="#9AA8B2">Lc</text>
+</svg>
+<span class="kick"><span>Taller metalúrgico para laboratorios<span data-cfg-wrap="ciudad"> · <span data-cfg="ciudad">San Nicolás de los Arroyos</span></span></span></span>
+<h1 data-t="inicio-1" class="disp hero-h1">Construimos, reparamos y restauramos equipos de laboratorio.</h1>
 <p data-t="inicio-2" style="margin: 0; font-size: 21px; color: #3E4C57; max-width: 600px">Además: mecanizado, soldadura, probetas de ensayo y moldes a medida. Una pieza o una serie corta, desde un plano, un croquis o una pieza existente.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; padding-top: 6px">
 <a class="btn btn-t" href="#cotizar" style="min-height: 56px; padding: 0 28px; font-size: 17px">Pedir cotización
@@ -69,8 +71,11 @@
 </div>
 </div>
 
-<div class="wrap" style="position: relative; margin-top: clamp(80px, 9vw, 136px); display: flex; flex-direction: column; gap: 20px">
-<div style="background: #fff; border-top: 3px solid var(--t); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr))">
+<a class="scroll-cue" href="#cifras" aria-label="Seguir bajando"><span>Seguí bajando</span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></a>
+</div>
+
+<div class="wrap hero-proof" id="cifras">
+<div class="hero-stats" style="border-top: 3px solid var(--t); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr))">
 <div style="padding: clamp(28px, 3.4vw, 48px); display: flex; align-items: center; gap: 24px">
 <span data-anios="oficio" class="disp" style="font-size: clamp(64px, 7vw, 96px); line-height: .9; color: var(--t)">30</span>
 <span style="display: flex; flex-direction: column"><strong data-t="inicio-4" style="font-size: 19px">años de experiencia</strong><span data-t="inicio-5" style="color: var(--muted); font-size: 15px">en el oficio metalúrgico</span></span>
@@ -154,12 +159,12 @@
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
 <div id="ba-col" style="flex: 0 1 380px; min-width: 260px; display: flex; flex-direction: column; gap: 12px">
-<div class="ba">
-<img id="ba-a" alt="">
-<img id="ba-d" alt="" style="clip-path: inset(0 0 0 50%)">
+<div class="ba" id="ba">
+<img id="ba-a" alt="" loading="lazy" decoding="async">
+<img id="ba-d" alt="" loading="lazy" decoding="async" style="clip-path: inset(0 0 0 50%)">
 <span class="tag mono" style="left: 12px; background: var(--ink)">ANTES</span>
 <span class="tag mono" style="right: 12px; background: var(--t)">DESPUÉS</span>
-<div id="ba-knob" class="ba-knob" aria-hidden="true"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16222B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
+<div id="ba-knob" class="ba-knob"><span id="ba-handle" title="Arrastrá para comparar"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#16222B" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-6 6 6 6M15 6l6 6-6 6"/></svg></span></div>
 <input id="ba-range" class="ba-range" type="range" min="0" max="100" value="50" aria-label="Deslizar para comparar antes y después">
 </div>
 <div style="display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 4px 16px">
@@ -210,7 +215,7 @@
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px">
 <div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><path d="M0 45 H260" stroke="#9AA8B2" stroke-dasharray="8 4 2 4"/><path d="M10 25 H60 C68 25 70 36 76 36 H184 C190 36 192 25 200 25 H250 V65 H200 C192 65 190 54 184 54 H76 C70 54 68 65 60 65 H10 Z" fill="#E4EAED" stroke="#16222B" stroke-width="2"/><path d="M16 31 H58 M80 40 H180 M202 31 H244" stroke="#FFFFFF" stroke-width="3"/><path d="M96 30 V60 M164 30 V60" stroke="#1E5B8C" stroke-width="2.4"/></svg><strong data-t="trabajos-27">Tracción cilíndrica</strong><span data-t="trabajos-28">Redonda, cabezas lisas o roscadas</span></div>
 <div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><path d="M10 20 H62 C72 20 74 33 82 33 H178 C186 33 188 20 198 20 H250 V62 H198 C188 62 186 49 178 49 H82 C74 49 72 62 62 62 H10 Z" fill="#E4EAED" stroke="#16222B" stroke-width="2"/><rect x="10" y="72" width="240" height="7" fill="#C9D3D9" stroke="#16222B" stroke-width="1.6"/><path d="M100 27 V55 M160 27 V55" stroke="#1E5B8C" stroke-width="2.4"/></svg><strong data-t="trabajos-29">Tracción plana</strong><span data-t="trabajos-30">De chapa, planchuela o perfil</span></div>
-<div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><circle cx="130" cy="34" r="16" fill="#7D8C98" stroke="#16222B" stroke-width="2"/><path d="M74 86 L100 40 A31 31 0 0 1 160 40 L186 86" stroke="#16222B" stroke-width="13" fill="none" stroke-linejoin="round"/><path d="M74 86 L100 40 A31 31 0 0 1 160 40 L186 86" stroke="#E4EAED" stroke-width="9" fill="none" stroke-linejoin="round"/><path d="M114 10 L130 16 L146 10" stroke="#1E5B8C" stroke-width="2.4" fill="none"/></svg><strong data-t="trabajos-31">Plegado / doblado</strong><span data-t="trabajos-32">Para doblado guiado</span></div>
+<div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><g transform="translate(0 90) scale(1 -1)"><circle cx="130" cy="34" r="16" fill="#7D8C98" stroke="#16222B" stroke-width="2"/><path d="M74 86 L100 40 A31 31 0 0 1 160 40 L186 86" stroke="#16222B" stroke-width="13" fill="none" stroke-linejoin="round"/><path d="M74 86 L100 40 A31 31 0 0 1 160 40 L186 86" stroke="#E4EAED" stroke-width="9" fill="none" stroke-linejoin="round"/><path d="M114 10 L130 16 L146 10" stroke="#1E5B8C" stroke-width="2.4" fill="none"/></g></svg><strong data-t="trabajos-31">Plegado / doblado</strong><span data-t="trabajos-32">Para doblado guiado</span></div>
 <div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><path d="M30 26 H122 L130 40 L138 26 H230 V62 H30 Z" fill="#E4EAED" stroke="#16222B" stroke-width="2" stroke-linejoin="round"/><path d="M122 26 L130 40 L138 26" stroke="#1E5B8C" stroke-width="2.6" fill="none" stroke-linejoin="round"/><path d="M30 78 H230 M30 72 V84 M230 72 V84" stroke="#9AA8B2" stroke-width="1.4"/></svg><strong data-t="trabajos-33">Charpy</strong><span data-t="trabajos-34">Entalla en V o en U</span></div>
 <div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><path d="M20 23 H44 V31 H222 V59 H44 V67 H20 Z" fill="#E4EAED" stroke="#16222B" stroke-width="2"/><path d="M50 37 H216" stroke="#FFFFFF" stroke-width="3"/><path d="M252 34 Q244 38 236 34 M252 45 Q244 49 236 45 M252 56 Q244 60 236 56" stroke="#1E5B8C" stroke-width="2.4" fill="none"/></svg><strong data-t="trabajos-35">Jominy</strong><span data-t="trabajos-36">Para ensayo de templabilidad</span></div>
 <div class="pcard"><svg viewBox="0 0 260 90" aria-hidden="true"><path d="M0 45 H260" stroke="#9AA8B2" stroke-dasharray="8 4 2 4"/><path d="M10 25 H70 C110 25 115 38 130 38 C145 38 150 25 190 25 H250 V65 H190 C150 65 145 52 130 52 C115 52 110 65 70 65 H10 Z" fill="#E4EAED" stroke="#16222B" stroke-width="2"/><path d="M30 12 A18 8 0 1 1 52 12" stroke="#1E5B8C" stroke-width="2.4" fill="none"/><path d="M47 6 L53 13 L45 16" stroke="#1E5B8C" stroke-width="2.4" fill="none" stroke-linejoin="round"/></svg><strong data-t="trabajos-37">Fatiga</strong><span data-t="trabajos-38">Para flexión rotativa</span></div>
@@ -354,6 +359,7 @@
 <div><p data-t="galeria-3">Equipos, restauraciones, probetas y piezas para laboratorios. Tocá un trabajo para ver todas sus fotos.</p></div>
 </div>
 <div id="filters" class="filters" role="group" aria-label="Filtrar trabajos"></div>
+<noscript><p style="margin: 0">Para ver la galería de trabajos hace falta activar JavaScript en el navegador.</p></noscript>
 <div id="feat" class="feat"></div>
 <div id="cards" class="cards"></div>
 <button id="more" class="btn" type="button" style="align-self: center; min-height: 52px; padding: 0 28px; font: inherit; font-weight: 600; cursor: pointer; border: 1.5px solid #16222B; background: transparent; color: #16222B; display: none"></button>
@@ -363,61 +369,65 @@
 <!-- ================= COTIZACIÓN ================= -->
 <section id="cotizar" class="sec" style="background: var(--ice2)">
 <div class="wrap" style="display: flex; flex-wrap: wrap; gap: clamp(40px, 6vw, 96px); align-items: flex-start">
-<div class="reveal" style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 26px">
+<div style="flex: 1 1 340px; display: flex; flex-direction: column; gap: 26px">
 <span data-t="cotizar-1" class="kick">Presupuesto sin cargo</span>
 <h2 data-t="cotizar-2" class="h2">Contanos qué necesitás</h2>
-<p style="margin: 0; font-size: 19px; color: #3E4C57">Mandanos un plano, un croquis, una foto o la pieza misma. <span data-cfg-wrap="horasRespuesta">Te respondemos en <span class="tbd" data-cfg="horasRespuesta">[X]</span> horas hábiles.</span></p>
+<p style="margin: 0; font-size: 19px; color: #3E4C57">Mandanos un plano, un croquis, una foto o la pieza misma. <span data-cfg-wrap="horasRespuesta">Te respondemos en <span data-cfg="horasRespuesta">48</span> horas hábiles.</span></p>
 <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; font-size: 16px">
 <li style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E5B8C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M20 6 9 17l-5-5"/></svg><span data-t="cotizar-3">Control dimensional antes de la entrega</span></li>
 <li style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E5B8C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M20 6 9 17l-5-5"/></svg><span data-t="cotizar-4">Identificación y trazabilidad del material que nos enviás</span></li>
 <li style="display: flex; gap: 12px; align-items: flex-start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1E5B8C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: none; margin-top: 3px"><path d="M20 6 9 17l-5-5"/></svg><span>Entrega a domicilio del trabajo terminado</span></li>
 </ul>
-<a class="btn" href="https://wa.me/" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener" style="align-self: flex-start; min-height: 54px; padding: 0 24px; background: #1B7F4B; color: #fff; font-size: 17px">
-<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>
+<a class="btn" href="https://wa.me/5493364347460?text=Hola%2C%20quiero%20hacer%20una%20consulta" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener" style="align-self: flex-start; min-height: 54px; padding: 0 24px; background: #1B7F4B; color: #fff; font-size: 17px">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 Preferís WhatsApp</a>
 </div>
 
-<div id="sent" class="sent reveal" style="flex: 999 1 520px; min-width: 0; background: #fff; border-top: 3px solid var(--t); padding: clamp(24px, 3.6vw, 48px)">
+<div id="sent" class="sent" style="flex: 999 1 520px; min-width: 0; background: #fff; border-top: 3px solid var(--t); padding: clamp(24px, 3.6vw, 48px)">
 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#1E5B8C" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-<h3 class="h3" style="font-size: 30px">¡Gracias! Recibimos tu pedido.</h3>
+<h3 class="h3" tabindex="-1" style="font-size: 30px; outline: none">¡Gracias! Recibimos tu pedido.</h3>
 <p data-t="cotizar-5" style="margin: 0; color: #3E4C57">Lo revisamos y te respondemos por email o WhatsApp.</p>
 <a class="linkbtn" href="#cotizar" id="sent-again">Enviar otro pedido</a>
 </div>
-<form id="quote" method="post" enctype="multipart/form-data" novalidate class="reveal" style="flex: 999 1 520px; min-width: 0; background: #fff; border-top: 3px solid var(--t); padding: clamp(24px, 3.6vw, 48px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 22px">
-<div><label class="lbl" for="f-nombre">Nombre y apellido *</label><input class="inp" id="f-nombre" name="nombre" type="text" autocomplete="name" required></div>
+<form id="quote" method="post" enctype="multipart/form-data" novalidate style="flex: 999 1 520px; min-width: 0; background: #fff; border-top: 3px solid var(--t); padding: clamp(24px, 3.6vw, 48px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 22px">
+<div><label class="lbl" for="f-nombre">Nombre *</label><input class="inp" id="f-nombre" name="nombre" type="text" autocomplete="name" required></div>
 <div><label class="lbl" for="f-empresa">Empresa o institución</label><input class="inp" id="f-empresa" name="empresa" type="text" autocomplete="organization"></div>
-<div><label class="lbl" for="f-email">Email *</label><input class="inp" id="f-email" name="email" type="email" autocomplete="email" required></div>
-<div><label class="lbl" for="f-wa">WhatsApp *</label><input class="inp" id="f-wa" name="whatsapp" type="tel" autocomplete="tel" required></div>
-<div style="grid-column: 1 / -1"><label class="lbl" for="f-tipo">¿Qué necesitás? *</label>
-<select class="inp" id="f-tipo" name="tipo" required>
-<option value="">Elegí una opción</option>
-<option>Construcción de un equipo</option>
-<option>Reparación o restauración de un equipo</option>
-<option>Corte o mecanizado</option>
-<option>Soldadura</option>
-<option>Probetas de ensayo</option>
-<option>Molde o matriz</option>
-</select></div>
+<div><label class="lbl" for="f-email">Email</label><input class="inp" id="f-email" name="email" type="email" autocomplete="email" placeholder="nombre@empresa.com"></div>
+<div><label class="lbl" for="f-wa">WhatsApp o teléfono</label><input class="inp" id="f-wa" name="whatsapp" type="tel" autocomplete="tel" placeholder="Ej. 336 4123456"></div>
+<div style="grid-column: 1 / -1"><label class="lbl" for="f-tipo">¿Qué necesitás?</label>
+<input class="inp" id="f-tipo" name="tipo" type="text" list="tipos" maxlength="120" autocomplete="off" placeholder="Ej. un eje, una soldadura, probetas">
+<datalist id="tipos">
+<option value="Construcción de un equipo">
+<option value="Reparación o restauración de un equipo">
+<option value="Corte o mecanizado">
+<option value="Soldadura">
+<option value="Probetas de ensayo">
+<option value="Molde o matriz">
+</datalist></div>
 <div><label class="lbl" for="f-mat">Material</label><input class="inp" id="f-mat" name="material" type="text" placeholder="Ej. inoxidable 316"></div>
 <div><label class="lbl" for="f-cant">Cantidad</label><input class="inp" id="f-cant" name="cantidad" type="text" placeholder="Ej. 6 probetas"></div>
 <div style="grid-column: 1 / -1"><label class="lbl" for="f-detalle">Detalle</label><textarea class="inp" id="f-detalle" name="detalle" rows="4" style="resize: vertical" placeholder="Medidas, uso, modelo del equipo, plazo…"></textarea></div>
-<div style="grid-column: 1 / -1; border: 1.5px dashed #9AA8B2; background: #F6F8F9; padding: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px">
+<div id="drop" class="drop" style="grid-column: 1 / -1">
 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1E5B8C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></svg>
-<div style="flex: 1 1 220px; display: flex; flex-direction: column; gap: 6px; min-width: 0">
-<label for="f-arch" style="font-weight: 600">Plano, croquis o fotos</label>
-<input id="f-arch" name="archivos" type="file" multiple accept=".pdf,.dwg,.dxf,.step,.stp,.iges,.igs,.jpg,.jpeg,.png,.heic" style="font: inherit; font-size: 14px; max-width: 100%">
-<span style="font-size: 14px; color: var(--muted)">PDF, DWG, DXF, STEP o fotos del celular</span>
+<div class="drop-txt">
+<strong id="f-arch-tit">Plano, croquis o fotos</strong>
+<span id="f-arch-ayuda">PDF, DWG, DXF, STEP o fotos del celular. Hasta 5 archivos de 10 MB cada uno.</span>
 </div>
+<input id="f-arch" class="vh" name="archivos" type="file" multiple accept=".pdf,.dwg,.dxf,.step,.stp,.iges,.igs,.jpg,.jpeg,.png,.heic" aria-labelledby="f-arch-tit" aria-describedby="f-arch-ayuda">
+<label for="f-arch" class="pick">Elegir archivos</label>
+<p id="f-arch-msg" class="arch-msg" role="status" hidden></p>
+<ul id="f-lista" class="flist" aria-label="Archivos elegidos" hidden></ul>
 </div>
 <input type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true" style="position: absolute; left: -9999px; width: 1px; height: 1px">
 <div class="cf-turnstile" data-sitekey="0x4AAAAAAF-GZWMrjHK8ssfG" data-action="cotizar" data-language="es" style="grid-column: 1 / -1"></div>
 <div id="form-msg" class="form-msg" role="status" aria-live="polite"></div>
 <div style="grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px">
 <button id="send" class="btn btn-t" type="submit" style="min-height: 56px; padding: 0 32px; border: 0; font: inherit; font-weight: 600; font-size: 17px; cursor: pointer">Enviar pedido</button>
-<span style="font-size: 14px; color: var(--muted)">* Campos obligatorios.</span>
+<span style="font-size: 14px; color: var(--muted)">* Obligatorio. Con tu nombre y un email o un WhatsApp alcanza para empezar.</span>
 <p style="flex: 1 1 100%; margin: 0; font-size: 13px; color: var(--muted)">Privacidad: usamos tus datos solo para responder tu consulta y no los compartimos con terceros. Según la Ley 25.326 de Protección de Datos Personales, podés pedirnos acceso, corrección o eliminación de tus datos escribiendo al email de contacto.</p>
 </div>
 </form>
+<noscript><div style="flex: 999 1 520px; background: #fff; border-top: 3px solid var(--t); padding: clamp(24px, 3.6vw, 48px)"><p style="margin: 0">Para enviar el formulario hace falta activar JavaScript en el navegador. Mientras tanto, escribinos por WhatsApp o por email: los datos están al pie de la página.</p></div></noscript>
 </div>
 </section>
 
@@ -443,21 +453,23 @@ Preferís WhatsApp</a>
 </nav>
 <div style="display: flex; flex-direction: column; gap: 10px">
 <span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #8EC1E6">CONTACTO</span>
-<a class="flink" href="https://wa.me/" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener">WhatsApp <span class="tbd" data-cfg="whatsappVisible">[NÚMERO]</span></a>
-<a class="flink" data-cfg-href="tel" href="#">Tel. <span class="tbd" data-cfg="telefono">[TELÉFONO]</span></a>
-<a class="flink" data-cfg-href="mail" href="#"><span class="tbd" data-cfg="email">[EMAIL]</span></a>
-<span><span class="tbd" data-cfg="direccion">[DIRECCIÓN]</span></span>
-<span>Lunes a viernes, <span class="tbd" data-cfg="horario">[HORARIO]</span></span>
+<a class="flink" href="https://wa.me/5493364347460?text=Hola%2C%20quiero%20hacer%20una%20consulta" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener">WhatsApp <span data-cfg="whatsappVisible">+54 336 434-7460</span></a>
+<a class="flink" data-cfg-href="tel" href="tel:+543364347460">Tel. <span data-cfg="telefono">+54 336 434-7460</span></a>
+<a class="flink" data-cfg-href="mail" href="mailto:contacto@annessi.ar"><span data-cfg="email">contacto@annessi.ar</span></a>
+<span><span data-cfg="direccion">Gendarmería Nacional 466, Barrio General Güemes</span></span>
+<span>Lunes a viernes, <span data-cfg="horario">de 8 a 16 h</span></span>
 </div>
 <div id="pie-clientes" style="display: flex; flex-direction: column; gap: 10px">
 <span class="mono" style="font-size: 12px; letter-spacing: .1em; color: #8EC1E6">TRABAJAMOS PARA</span>
-<span>UTN · Universidad Tecnológica Nacional</span>
-<span>IAS · Instituto Argentino de Siderurgia</span>
-<span>Diaverum</span>
+<div class="flogos">
+<span class="flogo"><img src="img/clientes/utn.png" alt="Universidad Tecnológica Nacional" style="max-height: 34px"></span>
+<span class="flogo"><img src="img/clientes/ias.png" alt="Instituto Argentino de Siderurgia" style="max-height: 46px"></span>
+<span class="flogo"><img src="img/clientes/Diaverum_logo.jpeg" alt="Diaverum" style="max-height: 26px"></span>
+</div>
 </div>
 </div>
 <div style="border-top: 1px solid #2E3D48; padding-top: 24px; padding-right: 90px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; font-size: 13px; color: #A9B6BF">
-<span>© <span data-year>2026</span> <span data-cfg="nombre">Annessi</span> · <span data-cfg="razonSocial">David Annessi Mecanizados</span><span data-cfg-wrap="ciudad"> · <span class="tbd" data-cfg="ciudadProvincia">[CIUDAD, PROVINCIA]</span></span></span>
+<span>© <span data-year>2026</span> <span data-cfg="nombre">Annessi</span> · <span data-cfg="razonSocial">David Annessi Mecanizados</span><span data-cfg-wrap="ciudad"> · <span data-cfg="ciudadProvincia">San Nicolás de los Arroyos, Buenos Aires</span></span></span>
 <span data-t="pie-2">Aceros · no ferrosos · plásticos técnicos</span>
 </div>
 </div>
@@ -485,9 +497,12 @@ Preferís WhatsApp</a>
 </div>
 </div>
 
-<a class="btn" href="https://wa.me/" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp" style="position: fixed; right: 20px; bottom: 20px; width: 58px; height: 58px; border-radius: 50%; background: #1B7F4B; color: #fff; justify-content: center; box-shadow: 0 8px 22px rgba(0,0,0,.25); z-index: 10">
-<svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.6-5.1A8.5 8.5 0 1 1 21 11.5z"/></svg>
+<div id="wa-float" class="wa-float" hidden>
+<span id="wa-bubble" class="wa-bubble" aria-hidden="true">¿Una consulta? Escribinos</span>
+<a id="wa-btn" class="wa-btn" href="https://wa.me/5493364347460?text=Hola%2C%20quiero%20hacer%20una%20consulta" data-wa="Hola, quiero hacer una consulta" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+<svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
 </a>
+</div>
 
 <script src="js/trabajos.js"></script>
 <script src="js/contenido.js"></script>
