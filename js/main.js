@@ -616,11 +616,11 @@
     var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
     var shown = false, t;
     var mensaje = function () { // el mensaje cambia según la sección que está mirando la persona
-      var base = 'Hola, quiero hacer una consulta';
-      var nombres = ['sobre la construcción de un equipo', 'sobre la reparación o restauración de un equipo', 'sobre un corte o mecanizado', 'sobre una soldadura', 'sobre probetas de ensayo', 'sobre un molde o matriz'];
+      var base = 'Hola, los contacto desde la web de Annessi. Quiero consultar por un trabajo';
+      var nombres = ['de construcción de un equipo', 'de reparación o restauración de un equipo', 'de corte o mecanizado', 'de soldadura', 'de probetas de ensayo', 'de moldes o matrices'];
       var r = $('trabajos').getBoundingClientRect();
       var enServicios = r.top < window.innerHeight * 0.5 && r.bottom > window.innerHeight * 0.5;
-      return enServicios ? base + ' ' + nombres[state.mode === 'stack' ? spyI : state.tab] : base;
+      return (enServicios ? base + ' ' + nombres[state.mode === 'stack' ? spyI : state.tab] : base) + '.';
     };
     $('wa-btn').addEventListener('click', function () { $('wa-btn').href = waLink(mensaje()); });
     $('wa-btn').addEventListener('focus', function () { $('wa-btn').href = waLink(mensaje()); });
