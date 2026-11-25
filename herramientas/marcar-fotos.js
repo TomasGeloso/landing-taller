@@ -28,6 +28,8 @@ const ANGULO = -28;         // inclinación de la trama
 const SEPARACION_X = 0.46;  // distancia horizontal entre logos (relativa al ancho de la foto)
 const SEPARACION_Y = 0.20;  // distancia vertical entre filas
 const CALIDAD_JPG = 86;
+// lado mayor máximo: las fotos más grandes se achican al marcarlas (las que ya entran quedan igual)
+const LADO_MAX = { trabajos: 1600, miniaturas: 520 };
 
 // Logo: se toma el path del wordmark del sitio
 const svgLogo = fs.readFileSync(path.join(RAIZ, 'img/logo/annessi-wordmark.svg'), 'utf8');
@@ -74,7 +76,8 @@ function* archivos(dir) {
       const destino = path.join(RAIZ, 'img', rel);
       if (SOLO_NUEVAS && fs.existsSync(destino)) { saltadas++; continue; }
       fs.mkdirSync(path.dirname(destino), { recursive: true });
-      const base = sharp(f).rotate();                    // respeta la orientación EXIF
+      const base = sharp(f).rotate()                     // respeta la orientación EXIF
+        .resize({ width: LADO_MAX[carpeta], height: LADO_MAX[carpeta], fit: 'inside', withoutEnlargement: true });
       const { width, height } = await base.clone().toBuffer({ resolveWithObject: true }).then(r => r.info);
       await base
         .composite([{ input: marca(width, height), top: 0, left: 0 }])
