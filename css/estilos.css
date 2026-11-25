@@ -1,6 +1,6 @@
 :root{--t:#1E5B8C;--ink:#16222B;--muted:#4E5D69;--ice:#E9EEF1;--ice2:#F4F7F8;--line:#DCE3E7;--steel:#7D8C98}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;scroll-padding-top:var(--barra-h,0px)}
 body{margin:0;background:var(--ice);color:var(--ink);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:17px;line-height:1.65}
 a{color:inherit}
 img{max-width:100%}
@@ -133,9 +133,9 @@ body.mode-stack #oficios-nav{display:none}
 /* ----- servicios ----- */
 #oficios-nav{flex:1 1 300px;display:flex;gap:18px}
 body.mode-stack #oficios-nav{display:none}
-#svc-bar{display:none;position:sticky;top:0;z-index:20;background:rgba(244,247,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:28px}
+#svc-bar{display:none;position:sticky;top:var(--barra-h,0px);z-index:20;background:rgba(244,247,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);margin-bottom:28px}
 body.mode-stack #svc-bar{display:block}
-.svc-row{display:flex;gap:8px;overflow-x:auto;padding:10px clamp(16px,4vw,48px);scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.svc-row{display:flex;gap:8px;overflow-x:auto;max-width:1240px;margin:0 auto;padding:10px clamp(16px,4vw,48px);scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .svc-row::-webkit-scrollbar{display:none}
 .svc{flex:none;display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:0 14px;border:1px solid #C9D3D9;background:#fff;color:var(--ink);font:inherit;font-size:14px;font-weight:500;border-radius:2px;cursor:pointer;white-space:nowrap;transition:background-color .25s ease,color .25s ease,border-color .25s ease}
 .svc .n{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)}
@@ -333,3 +333,16 @@ html.lb-open body{overflow:hidden}
 /* el encabezado y el bloque de texto ocupan todo el ancho dentro de la primera pantalla (contenedor flex) */
 .hero-first > .wrap{width:100%}
 #cotizar .h2{font-size:clamp(32px,3.3vw,46px)}
+
+/* ----- barra fija: aparece al bajar (js/main.js le pone la clase "on" y publica su alto en --barra-h) ----- */
+.barra{position:fixed;top:0;left:0;right:0;z-index:40;background:rgba(244,247,248,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);transform:translateY(-100%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s}
+.barra.on{transform:none;visibility:visible;transition:transform .25s ease}
+.barra-in{display:flex;align-items:center;gap:30px;height:64px}
+.barra .brand{display:flex;align-items:center;margin-right:auto;text-decoration:none}
+.barra .brand img{display:block;height:22px;width:auto}
+.barra nav{display:flex;align-items:center;gap:30px;font-size:15px;font-weight:500}
+.barra .cta{min-height:40px;padding:0 18px;font-size:15px}
+@media (max-width:700px){.barra-in{height:56px;gap:12px}.barra nav{display:none}.barra .cta{min-height:38px;padding:0 14px;font-size:14px}}
+/* pantallas bajas (celular acostado): la barra fija y la de servicios se achican para no comerse la pantalla */
+@media (max-height:500px){.barra-in{height:44px}.barra .brand img{height:18px}.barra nav{font-size:14px}.barra .cta{min-height:32px;padding:0 14px;font-size:14px}.svc-row{padding-top:5px;padding-bottom:5px}.svc{min-height:32px}}
+@media (prefers-reduced-motion: reduce){.barra,.barra.on{transition:none}}

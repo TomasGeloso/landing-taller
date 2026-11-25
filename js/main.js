@@ -9,7 +9,7 @@
   var fp = function (path) { for (var j = 0; j < GAL.length; j++) for (var k = 0; k < GAL[j].p.length; k++) if (GAL[j].p[k][0] === path) return { i: j, k: k }; return null; }; // trabajo y foto por archivo
   var N = 6;
   var SEG = N - 0.4; // tramos de scroll: el último servicio dura menos y no queda un hueco al final
-  var state = { mode: 'tabs', vh: window.innerHeight, tab: 0, ri: 0, cat: 'todos', showAll: false, lb: null, lp: 0 };
+  var state = { mode: 'tabs', vh: window.innerHeight, B: 0, tab: 0, ri: 0, cat: 'todos', showAll: false, lb: null, lp: 0 };
   var $ = function (id) { return document.getElementById(id); };
   var el = function (tag, attrs, html) { var e = document.createElement(tag); for (var k in (attrs || {})) e.setAttribute(k, attrs[k]); if (html != null) e.innerHTML = html; return e; };
   var esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
@@ -136,17 +136,19 @@
     state.mode = mode;
     document.body.className = 'mode-' + state.mode;
     var scroll = state.mode === 'scroll';
-    var padTop = scroll ? Math.round(Math.max(40, Math.min(110, h * 0.1))) : 0;
-    track.style.height = scroll ? Math.round(h + SEG * h * 0.75) + 'px' : 'auto';
+    // con el scroll fijo, los servicios quedan debajo de la barra fija: usan la pantalla menos su alto (v)
+    var B = state.B = barraH(), v = scroll ? h - B : h;
+    var padTop = scroll ? Math.round(Math.max(40, Math.min(110, v * 0.1))) : 0;
+    track.style.height = scroll ? Math.round(v + SEG * h * 0.75) + 'px' : 'auto';
     stick.style.position = scroll ? 'sticky' : 'relative';
-    stick.style.top = '0';
-    stick.style.height = scroll ? h + 'px' : 'auto';
+    stick.style.top = (scroll ? B : 0) + 'px';
+    stick.style.height = scroll ? v + 'px' : 'auto';
     state.padTop = padTop;
     stick.style.paddingTop = padTop + 'px';
     $('scroll-hint').style.display = scroll ? 'block' : 'none';
-    $('horno').style.height = (scroll ? Math.max(280, Math.min(460, h - padTop - 330)) : 440) + 'px';
-    stick.style.setProperty('--vis-h', (scroll ? Math.max(260, Math.min(500, h - padTop - 320)) : 420) + 'px');
-    $('ba-col').style.flexBasis = (scroll ? Math.max(240, Math.min(380, Math.round((h - padTop - 330) * 0.8))) : 380) + 'px';
+    $('horno').style.height = (scroll ? Math.max(280, Math.min(460, v - padTop - 330)) : 440) + 'px';
+    stick.style.setProperty('--vis-h', (scroll ? Math.max(260, Math.min(500, v - padTop - 320)) : 420) + 'px');
+    $('ba-col').style.flexBasis = (scroll ? Math.max(240, Math.min(380, Math.round((v - padTop - 330) * 0.8))) : 380) + 'px';
   }
 
   // En el modo de scroll fijo cada servicio tiene que entrar entero en la pantalla.
@@ -163,7 +165,11 @@
     return ok;
   }
 
+  // alto de la barra fija (cuenta aunque esté oculta: cuando se recorre Servicios siempre está visible)
+  function barraH() { var b = $('barra'); return b ? b.offsetHeight : 0; }
+
   function measure() {
+    document.documentElement.style.setProperty('--barra-h', barraH() + 'px');
     var w = window.innerWidth, h = window.innerHeight;
     state.vh = h;
     var mode = w < 960 ? 'stack' : (h < 1500 ? 'scroll' : 'tabs');
@@ -177,9 +183,9 @@
     if (state.mode === 'stack') { spy(); return; }
     if (state.mode !== 'scroll') return;
     var r = track.getBoundingClientRect();
-    var total = r.height - window.innerHeight;
+    var total = r.height - (window.innerHeight - state.B);
     if (total <= 0) return;
-    var p = Math.min(1, Math.max(0, -r.top / total));
+    var p = Math.min(1, Math.max(0, (state.B - r.top) / total));
     $('prog').style.height = Math.round(p * 100) + '%';
     var i = Math.min(N - 1, Math.floor(p * SEG));
     // mientras dura el desplazamiento iniciado por un clic, no se cambia de panel en el camino
@@ -193,7 +199,7 @@
   var lock = null;
   function goTo(i) {
     if (state.mode === 'stack') {
-      var barH = $('svc-bar').offsetHeight;
+      var barH = $('svc-bar').offsetHeight + barraH();
       lockStack = { until: Date.now() + 1200 };
       setSpy(i);
       window.scrollTo({ top: window.scrollY + panels[i].getBoundingClientRect().top - barH - 16, behavior: 'smooth' });
@@ -201,9 +207,9 @@
     }
     if (state.mode === 'scroll') {
       var r = track.getBoundingClientRect();
-      var total = r.height - window.innerHeight;
+      var total = r.height - (window.innerHeight - state.B);
       lock = { i: i, until: Date.now() + 1600 };
-      window.scrollTo({ top: window.scrollY + r.top + Math.min(1, (i + 0.5) / SEG) * total, behavior: 'smooth' });
+      window.scrollTo({ top: window.scrollY + r.top - state.B + Math.min(1, (i + 0.5) / SEG) * total, behavior: 'smooth' });
     }
     setTab(i);
   }
@@ -212,7 +218,7 @@
     a.addEventListener('click', function (e) {
       e.preventDefault(); var i = +a.getAttribute('data-go');
       if (state.mode === 'stack') { goTo(i); return; }
-      window.scrollTo({ top: window.scrollY + track.getBoundingClientRect().top, behavior: 'auto' }); setTimeout(function () { goTo(i); }, 50);
+      window.scrollTo({ top: window.scrollY + track.getBoundingClientRect().top - state.B, behavior: 'auto' }); setTimeout(function () { goTo(i); }, 50);
     });
   });
 
@@ -641,10 +647,31 @@
     window.addEventListener('scroll', function () { if (window.scrollY > 500) aparecer(); }, { passive: true }); // o apenas empieza a recorrer la página
   })();
 
+  /* ---------- Barra fija ---------- */
+  // Aparece cuando la cabecera de arriba sale de la pantalla. Su alto queda en --barra-h
+  // para que las anclas, la barra de servicios y los servicios fijos no queden debajo de ella.
+  var barra = $('barra'), hdr = document.querySelector('.hdr');
+  function mostrarBarra(si) {
+    if (!barra || barra.classList.contains('on') === si) return;
+    barra.classList.toggle('on', si);
+    barra.inert = !si;
+    if (si) barra.removeAttribute('aria-hidden'); else barra.setAttribute('aria-hidden', 'true');
+  }
+  if (barra && hdr) {
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (es) { var e = es[es.length - 1]; mostrarBarra(!e.isIntersecting && e.boundingClientRect.top < 0); }).observe(hdr); // el último aviso es el estado actual
+    } else {
+      var verBarra = function () { mostrarBarra(hdr.getBoundingClientRect().bottom < 0); };
+      window.addEventListener('scroll', verBarra, { passive: true }); verBarra();
+    }
+  }
+
   /* ---------- Inicio ---------- */
   if (RES.length) renderRes(0);
   renderGallery();
   window.addEventListener('resize', function () { measure(); if (limit() !== LIMIT) renderGallery(); });
   window.addEventListener('scroll', onScroll, { passive: true });
   measure();
+  // si las tipografías todavía no llegaron, se vuelve a medir con la letra definitiva (puede ocupar más)
+  if (document.fonts && document.fonts.status === 'loading') document.fonts.ready.then(measure);
 })();
